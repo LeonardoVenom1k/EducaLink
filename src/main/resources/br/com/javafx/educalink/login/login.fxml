@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.login.LoginController">
+
+     <ImageView fitHeight="500" fitWidth="800" preserveRatio="false">
+         <image>
+             <Image url="@../img/login/fundologin.png" />
+         </image>
+     </ImageView>
+   <ImageView fitHeight="500.0" fitWidth="353.0" layoutX="447.0">
+      <image>
+         <Image url="@../img/login/Rectangle.png" />
+      </image>
+   </ImageView>
+
+       <TextField fx:id="matricula" layoutX="528.0" layoutY="205.0" opacity="0.9" prefHeight="38.0" prefWidth="218.0" promptText="Matrícula" />
+
+       <PasswordField fx:id="senha" layoutX="528.0" layoutY="259.0" opacity="0.9" prefHeight="38.0" prefWidth="218.0" promptText="Senha" />
+
+       <Button layoutX="580.0" layoutY="318.0" onAction="#entrar" opacity="0.6" prefHeight="32.0" prefWidth="87.0" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Entrar">
+      <font>
+         <Font name="System Bold" size="17.0" />
+      </font>
+   </Button>
+
+       <Hyperlink layoutX="574.0" layoutY="356.0" onMouseClicked="#esquecisenha" style="-fx-text-fill: #820AD1;" text="Esqueci a Senha?" />
+   <ImageView fitHeight="32.0" fitWidth="182.0" layoutX="562.0" layoutY="103.0">
+      <image>
+         <Image url="@../img/login/EducaLink.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="528.0" layoutY="103.0">
+      <image>
+         <Image url="@../img/login/Link.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="32.0" fitWidth="161.0" layoutX="536.0" layoutY="146.0">
+      <image>
+         <Image url="@../img/login/bemvindoa.png" />
+      </image>
+   </ImageView>
+</AnchorPane>
