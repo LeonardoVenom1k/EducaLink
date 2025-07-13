@@ -1,14 +1,10 @@
 package br.com.javafx.educalink.login;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.event.ActionEvent;
 
 public class LoginController {
 
@@ -19,20 +15,37 @@ public class LoginController {
     private PasswordField senha;
 
     @FXML
+    private TextField senhaVisivel;
+
+    @FXML
     private Button entrar;
 
     @FXML
     private Hyperlink esquecisenha;
 
     @FXML
+    private ImageView iconSenha;
+
+    private boolean senhaEstaVisivel = false;
+
+    @FXML
+    private void initialize() {
+        // Oculta o campo de senha visível no início
+        senhaVisivel.setVisible(false);
+
+        // Sincroniza os campos quando o usuário digita
+        senhaVisivel.textProperty().addListener((obs, oldText, newText) -> senha.setText(newText));
+        senha.textProperty().addListener((obs, oldText, newText) -> senhaVisivel.setText(newText));
+    }
+
+    @FXML
     private void entrar(ActionEvent event) {
         String user = matricula.getText();
-        String pass = senha.getText();
+        String pass = senhaEstaVisivel ? senhaVisivel.getText() : senha.getText();
 
-        // Aqui você vai validar o login. Por enquanto só exemplo:
-        if ("1234".equals(user) && "admin".equals(pass)) {
+        if ("2025".equals(user) && "faitec25".equals(pass)) {
             mostrarAlerta("Login realizado com sucesso!");
-            // Navegar para próxima tela aqui
+            // Aqui você pode carregar outra tela
         } else {
             mostrarAlerta("Matrícula ou senha incorretos.");
         }
@@ -41,11 +54,34 @@ public class LoginController {
     @FXML
     private void esquecisenha(MouseEvent event) {
         mostrarAlerta("Solicitação de redefinição de senha enviada!");
-        // Pode abrir outra tela ou fazer algo mais aqui
     }
 
+    @FXML
+    private void alternarSenha(MouseEvent event) {
+        senhaEstaVisivel = !senhaEstaVisivel;
+
+        if (senhaEstaVisivel) {
+            senhaVisivel.setText(senha.getText());
+            senhaVisivel.setVisible(true);
+            senhaVisivel.setManaged(true);
+            senha.setVisible(false);
+            senha.setManaged(false);
+            senhaVisivel.requestFocus();
+            senhaVisivel.positionCaret(senhaVisivel.getText().length());
+        } else {
+            senha.setText(senhaVisivel.getText());
+            senha.setVisible(true);
+            senha.setManaged(true);
+            senhaVisivel.setVisible(false);
+            senhaVisivel.setManaged(false);
+            senha.requestFocus();
+            senha.positionCaret(senha.getText().length());
+        }
+    }
+
+
     private void mostrarAlerta(String mensagem) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Aviso");
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
