@@ -1,5 +1,7 @@
 package br.com.javafx.educalink.login;
 
+import br.com.javafx.educalink.areaalu.AreaAluController;
+import br.com.javafx.educalink.alunos.Aluno;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -60,21 +62,30 @@ public class LoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
                 Parent root = loader.load();
 
-                Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
+                AreaAluController controller = loader.getController();
+
+                // Cria o aluno com todos os dados preenchidos
+                Aluno aluno = new Aluno("Leonardo Aguiar", user);
+                aluno.setCurso("Sistemas de Informação");
+                aluno.setEndereco("Rua Fioravante Guersoni, 301");
+                aluno.setBairro("Cruzeiro");
+                aluno.setNumero("301");
+
+                // Passa o aluno completo para a área do aluno
+                controller.receberDadosAluno(aluno);
+
+                Stage stage = (Stage) entrar.getScene().getWindow();
+                stage.setScene(new Scene(root, 800, 500));
                 stage.setTitle("EducaLink - Área do Aluno");
                 stage.setResizable(false);
-                stage.show();
-
             } catch (IOException e) {
                 e.printStackTrace();
-                mostrarAlerta("Erro ao carregar a área do aluno.");
             }
-
         } else {
             mostrarAlerta("Matrícula ou senha incorretos.");
         }
     }
+
 
     @FXML
     private void esquecisenha(MouseEvent event) {

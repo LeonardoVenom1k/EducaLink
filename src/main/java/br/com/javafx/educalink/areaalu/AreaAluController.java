@@ -1,5 +1,6 @@
 package br.com.javafx.educalink.areaalu;
 
+import br.com.javafx.educalink.alunos.Aluno;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,9 +30,12 @@ public class AreaAluController {
     @FXML
     private Label areadoAluno;
 
+    // Armazena os dados do aluno que vieram do login
+    private Aluno aluno;
+
     @FXML
     public void initialize() {
-        String estiloLabelPadrao = "-fx-text-fill: ##000000; -fx-underline: false; -fx-cursor: hand;";
+        String estiloLabelPadrao = "-fx-text-fill: #000000; -fx-underline: false; -fx-cursor: hand;";
         String estiloLabelHover = "-fx-text-fill: #6b00b3; -fx-underline: true; -fx-cursor: hand;";
 
         setupHover(materias, estiloLabelHover, estiloLabelPadrao);
@@ -48,6 +52,11 @@ public class AreaAluController {
         label.setStyle(estiloPadrao);
         label.setOnMouseEntered(e -> label.setStyle(estiloHover));
         label.setOnMouseExited(e -> label.setStyle(estiloPadrao));
+    }
+
+    public void receberDadosAluno(Aluno aluno) {
+        this.aluno = aluno;  // Guarda o objeto na variável interna
+        // Aqui pode atualizar labels da área do aluno, se quiser
     }
 
     @FXML
@@ -83,8 +92,23 @@ public class AreaAluController {
 
     @FXML
     private void clicouAreaAluno(MouseEvent event) {
-        mostrarAlerta("Você já está na área do aluno.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/perfil.fxml"));
+            Parent root = loader.load();
+
+            PerfilController perfilController = loader.getController();
+            perfilController.receberDadosAluno(this.aluno);
+
+            Stage stage = (Stage) sair.getScene().getWindow();  // pega janela atual
+            stage.setScene(new Scene(root, 800, 500));          // troca a cena
+            stage.setTitle("Perfil do Aluno");
+            stage.setResizable(false);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void mostrarAlerta(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
