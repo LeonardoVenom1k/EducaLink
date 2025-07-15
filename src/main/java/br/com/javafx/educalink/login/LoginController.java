@@ -11,6 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.HashMap;
+import java.util.Map;
+
 
 import java.io.IOException;
 
@@ -52,27 +55,53 @@ public class LoginController {
         esquecisenha.setOnMouseExited(e -> esquecisenha.setStyle("-fx-text-fill: #820AD1;"));
     }
 
+    private Map<String, Aluno> criarMapaAlunos() {
+        Map<String, Aluno> alunos = new HashMap<>();
+
+        Aluno aluno1 = new Aluno("Leonardo Aguiar", "2025");
+        aluno1.setCurso("Sistemas de Informação");
+        aluno1.setEndereco("Rua Fioravante Guersoni");
+        aluno1.setBairro("Cruzeiro");
+        aluno1.setNumero("301");
+        alunos.put("2025", aluno1);
+
+        Aluno aluno2 = new Aluno("Lucas Rodrigues Xavier", "20251");
+        aluno2.setCurso("Sistemas de Informação");
+        aluno2.setEndereco("Rua das Andorinhas");
+        aluno2.setBairro("Papagaio");
+        aluno2.setNumero("679");
+        alunos.put("20251", aluno2);
+
+        return alunos;
+    }
+
+    private Map<String, String> criarMapaSenhas() {
+        Map<String, String> senhas = new HashMap<>();
+        senhas.put("2025", "faitec25");
+        senhas.put("20251", "faitec25");
+        return senhas;
+    }
+
+
     @FXML
     private void entrar(ActionEvent event) {
         String user = matricula.getText();
         String pass = senhaEstaVisivel ? senhaVisivel.getText() : senha.getText();
 
-        if ("2025".equals(user) && "faitec25".equals(pass)) {
+        Map<String, String> senhas = criarMapaSenhas();
+        Map<String, Aluno> alunos = criarMapaAlunos();
+
+        // Verificação
+        if (senhas.containsKey(user) && senhas.get(user).equals(pass)) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
                 Parent root = loader.load();
 
                 AreaAluController controller = loader.getController();
 
-                // Cria o aluno com todos os dados preenchidos
-                Aluno aluno = new Aluno("Leonardo Aguiar", user);
-                aluno.setCurso("Sistemas de Informação");
-                aluno.setEndereco("Rua Fioravante Guersoni, 301");
-                aluno.setBairro("Cruzeiro");
-                aluno.setNumero("301");
-
-                // Passa o aluno completo para a área do aluno
-                controller.receberDadosAluno(aluno);
+                // Pega o aluno pelo user (matrícula)
+                Aluno alunoLogado = alunos.get(user);
+                controller.receberDadosAluno(alunoLogado);
 
                 Stage stage = (Stage) entrar.getScene().getWindow();
                 stage.setScene(new Scene(root, 800, 500));

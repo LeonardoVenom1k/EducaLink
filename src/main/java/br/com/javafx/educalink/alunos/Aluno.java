@@ -17,7 +17,6 @@ public class Aluno {
         this.numero = "123";
     }
 
-    // Getters
     public String getNome() {
         return nome;
     }
@@ -42,7 +41,6 @@ public class Aluno {
         return numero;
     }
 
-    // (Opcional) Setters se quiser permitir alteração depois
     public void setCurso(String curso) {
         this.curso = curso;
     }

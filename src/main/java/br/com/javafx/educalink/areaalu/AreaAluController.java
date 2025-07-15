@@ -99,8 +99,8 @@ public class AreaAluController {
             PerfilController perfilController = loader.getController();
             perfilController.receberDadosAluno(this.aluno);
 
-            Stage stage = (Stage) sair.getScene().getWindow();  // pega janela atual
-            stage.setScene(new Scene(root, 800, 500));          // troca a cena
+            Stage stage = (Stage) sair.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("Perfil do Aluno");
             stage.setResizable(false);
 
