@@ -1,5 +1,7 @@
 package br.com.javafx.educalink.alunos;
 
+import java.util.List;
+
 public class Aluno {
     private String nome;
     private String matricula;
@@ -7,6 +9,7 @@ public class Aluno {
     private String endereco;
     private String bairro;
     private String numero;
+    private List<String> idsProfessores;
 
     public Aluno(String nome, String matricula) {
         this.nome = nome;
@@ -17,12 +20,21 @@ public class Aluno {
         this.numero = "123";
     }
 
+    public Aluno(String nome, List<String> idsProfessores) {
+        this.nome = nome;
+        this.idsProfessores = idsProfessores;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public String getMatricula() {
         return matricula;
+    }
+
+    public List<String> getIdsProfessores() {
+        return idsProfessores;
     }
 
     public String getCurso() {
@@ -57,4 +69,5 @@ public class Aluno {
         this.numero = numero;
     }
 
+    public void setIdsProfessores(List<String> ids) { this.idsProfessores = ids; }
 }

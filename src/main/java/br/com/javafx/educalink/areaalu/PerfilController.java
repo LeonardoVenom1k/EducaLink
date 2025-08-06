@@ -1,6 +1,7 @@
 package br.com.javafx.educalink.areaalu;
 
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.professores.Professor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class PerfilController {
@@ -35,6 +37,8 @@ public class PerfilController {
 
     private Aluno aluno;
 
+    private List<Professor> professores;
+
     @FXML
     public void initialize() {
         if (fotoPerfil != null) {
@@ -51,6 +55,13 @@ public class PerfilController {
 
         sair.setOnMouseEntered(e -> sair.setStyle("-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px; -fx-cursor: hand;"));
         sair.setOnMouseExited(e -> sair.setStyle("-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px;"));
+    }
+
+    public void receberDadosProfessor(List<Professor> professores) {
+        this.professores = professores;
+        for (Professor p : professores) {
+            System.out.println("Recebido professor: " + p.getNome());
+        }
     }
 
     public void receberDadosAluno(Aluno aluno) {
@@ -106,11 +117,36 @@ public class PerfilController {
     @FXML
     private void clicouMaterias(MouseEvent event) {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/inscricao.fxml"));
+            Parent root = loader.load();
+
+            InscricaoController inscricaoController = loader.getController();
+            inscricaoController.receberDadosAluno(this.aluno);
+            inscricaoController.receberDadosProfessor(this.professores);
+
+            Stage stageAtual = (Stage) sair.getScene().getWindow();
+            stageAtual.close();
+
+            Stage novoStage = new Stage();
+            novoStage.setScene(new Scene(root, 800, 500));
+            novoStage.setTitle("Inscrição em Matérias");
+            novoStage.setResizable(false);
+            novoStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void clicouAtividades(MouseEvent event) {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
             Parent root = loader.load();
 
-            AreaAluController areaController = loader.getController();
-            areaController.receberDadosAluno(this.aluno);
+            AreaAluController areaAluController = loader.getController();
+            areaAluController.receberDadosAluno(this.aluno);
+            areaAluController.receberDadosProfessor(this.professores);
 
             Stage stageAtual = (Stage) sair.getScene().getWindow();
             stageAtual.close();
@@ -124,11 +160,6 @@ public class PerfilController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void clicouAtividades(MouseEvent event) {
-        mostrarAlerta("Você já está na seção Atividades.");
     }
 
     @FXML

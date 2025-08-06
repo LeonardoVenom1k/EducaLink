@@ -1,6 +1,7 @@
 package br.com.javafx.educalink.areaalu;
 
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.professores.Professor;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class AreaAluController {
@@ -32,6 +34,8 @@ public class AreaAluController {
 
     // Armazena os dados do aluno que vieram do login
     private Aluno aluno;
+
+    private List<Professor> professores;
 
     @FXML
     public void initialize() {
@@ -55,8 +59,15 @@ public class AreaAluController {
     }
 
     public void receberDadosAluno(Aluno aluno) {
-        this.aluno = aluno;  // Guarda o objeto na variável interna
-        // Aqui pode atualizar labels da área do aluno, se quiser
+        this.aluno = aluno;
+        System.out.println("Recebido aluno: " + aluno.getNome());
+    }
+
+    public void receberDadosProfessor(List<Professor> professores) {
+        this.professores = professores;
+        for (Professor p : professores) {
+            System.out.println("Recebido professor: " + p.getNome());
+        }
     }
 
     @FXML
@@ -82,8 +93,23 @@ public class AreaAluController {
 
     @FXML
     private void clicouMaterias(MouseEvent event) {
-        mostrarAlerta("Você já está na seção Matérias.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/inscricao.fxml"));
+            Parent root = loader.load();
+
+            InscricaoController controller = loader.getController();
+            controller.receberDadosAluno(this.aluno);
+            controller.receberDadosProfessor(this.professores);
+
+            Stage stage = (Stage) materias.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 500));
+            stage.setTitle("Inscrição em Matérias");
+            stage.setResizable(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void clicouAtividades(MouseEvent event) {
@@ -98,6 +124,7 @@ public class AreaAluController {
 
             PerfilController perfilController = loader.getController();
             perfilController.receberDadosAluno(this.aluno);
+            perfilController.receberDadosProfessor(this.professores);
 
             Stage stage = (Stage) sair.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 500));

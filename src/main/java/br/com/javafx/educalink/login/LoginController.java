@@ -2,6 +2,8 @@ package br.com.javafx.educalink.login;
 
 import br.com.javafx.educalink.areaalu.AreaAluController;
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.professores.Professor;
+import br.com.javafx.educalink.areaprof.AreaProfController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -11,9 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.util.HashMap;
-import java.util.Map;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import java.io.IOException;
 
@@ -55,6 +59,18 @@ public class LoginController {
         esquecisenha.setOnMouseExited(e -> esquecisenha.setStyle("-fx-text-fill: #820AD1;"));
     }
 
+    public Map<String, Professor> criarMapaProfessores() {
+        Map<String, Professor> professores = new HashMap<>();
+
+        Professor prof1 = new Professor("Carlos Vieira", "admin","Matemática");
+        professores.put("admin", prof1);
+
+        Professor prof2 = new Professor("Luiz Gonzaga", "admin2", "Português");
+        professores.put("admin2", prof2);
+
+        return professores;
+    }
+
     private Map<String, Aluno> criarMapaAlunos() {
         Map<String, Aluno> alunos = new HashMap<>();
 
@@ -63,6 +79,7 @@ public class LoginController {
         aluno1.setEndereco("Rua Fioravante Guersoni");
         aluno1.setBairro("Cruzeiro");
         aluno1.setNumero("301");
+        aluno1.setIdsProfessores(List.of("admin", "admin2"));
         alunos.put("2025", aluno1);
 
         Aluno aluno2 = new Aluno("Lucas Rodrigues Xavier", "20251");
@@ -70,6 +87,7 @@ public class LoginController {
         aluno2.setEndereco("Rua das Andorinhas");
         aluno2.setBairro("Papagaio");
         aluno2.setNumero("679");
+        aluno2.setIdsProfessores(List.of("admin", "admin2"));
         alunos.put("20251", aluno2);
 
         return alunos;
@@ -77,8 +95,10 @@ public class LoginController {
 
     private Map<String, String> criarMapaSenhas() {
         Map<String, String> senhas = new HashMap<>();
-        senhas.put("2025", "faitec25");
-        senhas.put("20251", "faitec25");
+        senhas.put("2025", "faitec25");    // Aluno
+        senhas.put("20251", "faitec25");   // Aluno2
+        senhas.put("admin", "admin"); //Professor
+        senhas.put("admin2", "admin2"); // Professor2
         return senhas;
     }
 
@@ -90,22 +110,41 @@ public class LoginController {
 
         Map<String, String> senhas = criarMapaSenhas();
         Map<String, Aluno> alunos = criarMapaAlunos();
+        Map<String, Professor> professores = criarMapaProfessores();
 
-        // Verificação
         if (senhas.containsKey(user) && senhas.get(user).equals(pass)) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
-                Parent root = loader.load();
-
-                AreaAluController controller = loader.getController();
-
-                // Pega o aluno pelo user (matrícula)
-                Aluno alunoLogado = alunos.get(user);
-                controller.receberDadosAluno(alunoLogado);
-
                 Stage stage = (Stage) entrar.getScene().getWindow();
-                stage.setScene(new Scene(root, 800, 500));
-                stage.setTitle("EducaLink - Área do Aluno");
+
+                if (alunos.containsKey(user)) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
+                    Parent root = loader.load();
+
+                    AreaAluController controller = loader.getController();
+                    Aluno alunoLogado = alunos.get(user);
+
+                    List<Professor> professoresDoAluno = new ArrayList<>();
+                    for (String idProf : alunoLogado.getIdsProfessores()) {
+                        Professor prof = professores.get(idProf);
+                        if (prof != null) {
+                            professoresDoAluno.add(prof);
+                        }
+                    }
+
+                    controller.receberDadosAluno(alunoLogado);
+                    controller.receberDadosProfessor(professoresDoAluno);
+
+                    stage.setScene(new Scene(root, 800, 500));
+                    stage.setTitle("EducaLink - Área do Aluno");
+
+                } else if (professores.containsKey(user)) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/areaprof.fxml"));
+                    Parent root = loader.load();
+
+                    stage.setScene(new Scene(root, 800, 500));
+                    stage.setTitle("EducaLink - Área do Professor");
+                }
+
                 stage.setResizable(false);
             } catch (IOException e) {
                 e.printStackTrace();
