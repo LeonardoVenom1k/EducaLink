@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -34,13 +35,25 @@
     <HBox layoutX="100.0" layoutY="100.0" spacing="40">
         <!-- Card 1 - Meus Alunos -->
         <VBox fx:id="cardAlunos" alignment="CENTER" onMouseClicked="#abrirTelaAlunos" prefHeight="143.0" prefWidth="172.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
-         <ImageView fitHeight="76.0" fitWidth="78.0">
+         <ImageView fitHeight="76.0" fitWidth="77.0">
             <image>
                <Image url="@../img/areaprof/users.png" />
             </image>
+            <VBox.margin>
+               <Insets bottom="-5.0" />
+            </VBox.margin>
          </ImageView>
-            <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Meus Alunos" />
-            <Label fx:id="lblTotalAlunos" style="-fx-font-size: 16px; -fx-text-fill: #444444;" text="" />
+            <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Meus Alunos">
+            <VBox.margin>
+               <Insets bottom="-5.0" />
+            </VBox.margin></Label>
+            <Label fx:id="lblTotalAlunos" alignment="CENTER" prefHeight="14.0" prefWidth="22.0" text="0">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="5.0" />
+            </VBox.margin></Label>
         </VBox>
 
         <!-- Card 2 - Atividades Pendentes -->
@@ -49,6 +62,9 @@
             <image>
                <Image url="@../img/areaprof/Document.png" />
             </image>
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
          </ImageView>
             <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Atividades Pendentes" />
         </VBox>
@@ -60,8 +76,14 @@
                <Image url="@../img/areaprof/lancarmaterial.png" />
             </image>
          </ImageView>
-            <Label prefHeight="19.0" prefWidth="45.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Lançar" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-         <Label alignment="CENTER" prefHeight="20.0" prefWidth="126.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Material/Atividade" wrapText="true" />
+            <Label prefHeight="19.0" prefWidth="45.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Lançar" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+            <VBox.margin>
+               <Insets bottom="-5.0" />
+            </VBox.margin></Label>
+         <Label alignment="CENTER" prefHeight="20.0" prefWidth="126.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Material/Atividade" wrapText="true">
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin></Label>
         </VBox>
     </HBox>
 

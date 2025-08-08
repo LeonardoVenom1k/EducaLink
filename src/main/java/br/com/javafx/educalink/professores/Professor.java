@@ -20,7 +20,15 @@ public class Professor {
         return nome;
     }
 
+    public String getMatricula() {
+        return matricula;
+    }
+
     public void setCurso(String curso) {
         this.curso = curso;
+    }
+
+    public String getId() {
+        return matricula;
     }
 }

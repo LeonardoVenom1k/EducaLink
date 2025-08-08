@@ -2,6 +2,7 @@ package br.com.javafx.educalink.login;
 
 import br.com.javafx.educalink.areaalu.AreaAluController;
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
 import br.com.javafx.educalink.areaprof.AreaProfController;
 import javafx.fxml.FXML;
@@ -79,6 +80,7 @@ public class LoginController {
         aluno1.setEndereco("Rua Fioravante Guersoni");
         aluno1.setBairro("Cruzeiro");
         aluno1.setNumero("301");
+        aluno1.setEmail("leonardo@email.com");
         aluno1.setIdsProfessores(List.of("admin", "admin2"));
         alunos.put("2025", aluno1);
 
@@ -87,6 +89,7 @@ public class LoginController {
         aluno2.setEndereco("Rua das Andorinhas");
         aluno2.setBairro("Papagaio");
         aluno2.setNumero("679");
+        aluno2.setEmail("lucas@email.com");
         aluno2.setIdsProfessores(List.of("admin", "admin2"));
         alunos.put("20251", aluno2);
 
@@ -141,8 +144,15 @@ public class LoginController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/areaprof.fxml"));
                     Parent root = loader.load();
 
+                    AreaProfController controller = loader.getController();
+                    Professor professorLogado = professores.get(user);
+                    controller.receberDadosProfessor(professorLogado);
+
+                    DadosCompartilhados.getInstancia().setAreaProfController(controller);
+                    
                     stage.setScene(new Scene(root, 800, 500));
                     stage.setTitle("EducaLink - Área do Professor");
+                    stage.show();
                 }
 
                 stage.setResizable(false);

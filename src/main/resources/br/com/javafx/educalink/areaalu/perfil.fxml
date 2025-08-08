@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaalu.PerfilController">
@@ -55,7 +54,7 @@
     </VBox>
 
     <!-- Dados do lado direito -->
-    <VBox layoutX="488.0" layoutY="110.0" prefHeight="188.0" prefWidth="261.0" spacing="10">
+    <VBox layoutX="488.0" layoutY="110.0" prefHeight="271.0" prefWidth="261.0" spacing="10">
         <Label style="-fx-font-weight: bold;" text="Endereço:">
             <font><Font size="15.0" /></font>
         </Label>
@@ -70,17 +69,18 @@
             <font><Font size="15.0" /></font>
         </Label>
         <TextField fx:id="campoNumero" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;" />
+      <Label style="-fx-font-weight: bold;" text="Email:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="campoEmail" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;" />
     </VBox>
-
-    <!-- Título e gráfico -->
-    <Label layoutX="488.0" layoutY="316.0" style="-fx-font-weight: bold;" text="Gráfico de entrega">
-        <font><Font size="15.0" /></font>
-    </Label>
     <Label layoutX="40.0" layoutY="64.0" prefHeight="46.0" prefWidth="195.0" text="Perfil do aluno">
         <font><Font name="System Bold" size="25.0" /></font>
     </Label>
 
     <!-- Foto do perfil com recorte -->
-    <ImageView fx:id="fotoPerfil" fitWidth="144.0" fitHeight="144.0" layoutX="102.0" layoutY="110.0" preserveRatio="true" />
+    <ImageView fx:id="fotoPerfil" fitHeight="144.0" fitWidth="144.0" layoutX="102.0" layoutY="110.0" preserveRatio="true" />
 
 </AnchorPane>

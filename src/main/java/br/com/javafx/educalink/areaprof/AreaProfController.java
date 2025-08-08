@@ -74,15 +74,19 @@ public class AreaProfController {
         // abrir tela de envio de material
     }
 
+    public Professor getProfessor() {
+        return professor;
+    }
+
     public void atualizarQtdAlunos(int total) {
         lblTotalAlunos.setText(String.valueOf(total));
     }
 
     public void receberDadosProfessor(Professor professor) {
         this.professor = professor;
+        DadosCompartilhados.getInstancia().setAreaProfController(this);
 
-        // Pega os alunos inscritos nesse professor
         int total = DadosCompartilhados.getInstancia().getTotalAlunos(professor);
-        lblTotalAlunos.setText("Total de Alunos: " + total);
+        lblTotalAlunos.setText(String.valueOf(total));
     }
 }

@@ -1,6 +1,7 @@
 package br.com.javafx.educalink.areaalu;
 
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.areaprof.AreaProfController;
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
 import javafx.event.ActionEvent;
@@ -20,7 +21,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class InscricaoController {
@@ -36,7 +39,7 @@ public class InscricaoController {
 
     private Aluno aluno;
     private List<Professor> professores;
-    private boolean estaInscrito = false;
+    private Map<Professor, Boolean> statusInscricao = new HashMap<>();
 
     public void receberDadosAluno(Aluno aluno) {
         this.aluno = aluno;
@@ -95,15 +98,27 @@ public class InscricaoController {
         imagemBotao.setPreserveRatio(true);
 
         Button botaoInscricao = new Button();
-        botaoInscricao.setStyle("-fx-background-color: transparent;");
+        botaoInscricao.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+
+        botaoInscricao.setOnMouseEntered(e -> imagemBotao.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0.0, 0, 2);"));
+        botaoInscricao.setOnMouseExited(e -> imagemBotao.setStyle("-fx-effect: none;"));
+
+        boolean jaInscrito = DadosCompartilhados.getInstancia().alunoEstaInscrito(professor, aluno);
+
+        if (jaInscrito) {
+            imagemBotao.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/mtdp/inscrito.png")));
+        } else {
+            imagemBotao.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/mtdp/inscrever-se.png")));
+        }
+
         botaoInscricao.setGraphic(imagemBotao);
 
         botaoInscricao.setOnAction(event -> {
+            boolean estaInscrito = DadosCompartilhados.getInstancia().alunoEstaInscrito(professor, aluno);
+
             if (!estaInscrito) {
-                estaInscrito = true;
-                imagemBotao.setImage(new Image(getClass().getResourceAsStream(
-                        "/br/com/javafx/educalink/img/mtdp/inscrito.png")));
                 DadosCompartilhados.getInstancia().inscreverAluno(professor, aluno);
+                imagemBotao.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/mtdp/inscrito.png")));
             } else {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Desinscrição");
@@ -115,10 +130,14 @@ public class InscricaoController {
                 alert.getButtonTypes().setAll(sim, nao);
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == sim) {
-                    estaInscrito = false;
-                    imagemBotao.setImage(new Image(getClass().getResourceAsStream(
-                            "/br/com/javafx/educalink/img/mtdp/inscrever-se.png")));
+                DadosCompartilhados.getInstancia().desinscreverAluno(professor, aluno);
+                imagemBotao.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/mtdp/inscrever-se.png")));
+
+                AreaProfController controller = DadosCompartilhados.getInstancia().getAreaProfController();
+                if (controller != null) {
+                    int totalAtual = DadosCompartilhados.getInstancia().getTotalAlunos(professor);
+                    controller.atualizarQtdAlunos(totalAtual);
+
                 }
             }
         });
@@ -159,9 +178,15 @@ public class InscricaoController {
     }
 
     @FXML
-    private void clicouMaterias(MouseEvent event) {
-        // já está nessa tela
-    }
+    private void clicouMaterias(MouseEvent event) { mostrarAlerta("Você já está em matérias.");}
+
+    private void mostrarAlerta(String msg) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informação");
+            alert.setHeaderText(null);
+            alert.setContentText(msg);
+            alert.showAndWait();
+        }
 
     @FXML
     private void clicouAtividades(MouseEvent event) {

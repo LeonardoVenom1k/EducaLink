@@ -9,6 +9,7 @@ public class Aluno {
     private String endereco;
     private String bairro;
     private String numero;
+    private String email;
     private List<String> idsProfessores;
 
     public Aluno(String nome, String matricula) {
@@ -53,6 +54,10 @@ public class Aluno {
         return numero;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setCurso(String curso) {
         this.curso = curso;
     }
@@ -67,6 +72,10 @@ public class Aluno {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setIdsProfessores(List<String> ids) { this.idsProfessores = ids; }

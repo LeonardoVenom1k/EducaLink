@@ -26,6 +26,7 @@ public class PerfilController {
     @FXML private TextField campoEndereco;
     @FXML private TextField campoBairro;
     @FXML private TextField campoNumero;
+    @FXML private TextField campoEmail;
 
     @FXML private ImageView fotoPerfil;
     @FXML private Circle circleClip;
@@ -74,6 +75,7 @@ public class PerfilController {
             campoEndereco.setText(aluno.getEndereco() != null ? aluno.getEndereco() : "");
             campoBairro.setText(aluno.getBairro() != null ? aluno.getBairro() : "");
             campoNumero.setText(aluno.getNumero() != null ? aluno.getNumero() : "");
+            campoEmail.setText(aluno.getEmail() != null ? aluno.getEmail() : "");
 
             String caminhoImagem = "/br/com/javafx/educalink/img/perfil/" + aluno.getMatricula() + ".png";
 
