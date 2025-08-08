@@ -6,12 +6,16 @@ import br.com.javafx.educalink.professores.Professor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,7 +44,6 @@ public class InscricaoController {
 
     public void receberDadosProfessor(List<Professor> professores) {
         this.professores = professores;
-
         for (Professor p : professores) {
             adicionarMateria(p.getCurso(), p.getNome(), p);
         }
@@ -67,57 +70,72 @@ public class InscricaoController {
         label.setOnMouseExited(e -> label.setStyle(estiloPadrao));
     }
 
-        private void adicionarMateria(String nomeMateria, String nomeProfessor, Professor professor){
-        VBox container = new VBox(5);
-        container.setStyle("-fx-background-color: #8000c8; -fx-background-radius: 12; -fx-padding: 20;");
+    private void adicionarMateria(String nomeMateria, String nomeProfessor, Professor professor) {
+        // garante espaçamento entre cards
+        listamaterias.setSpacing(15);
 
-        Label materiaLabel = new Label("MATÉRIA: " + nomeMateria);
-        materiaLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+        // container principal (o card)
+        VBox container = new VBox(10);
+        container.setStyle("-fx-background-color: #8000c8; -fx-background-radius: 8; -fx-padding: 15;");
 
-        Label professorLabel = new Label("PROFESSOR: " + nomeProfessor);
-        professorLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+        // labels
+        Label materiaLabel = new Label("MATÉRIA: " + nomeMateria.toUpperCase());
+        materiaLabel.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
 
+        Label professorLabel = new Label("PROFESSOR: " + nomeProfessor.toUpperCase());
+        professorLabel.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
+
+        VBox textos = new VBox(5, materiaLabel, professorLabel);
+
+        // botão imagem
         ImageView imagemBotao = new ImageView(new Image(getClass().getResourceAsStream(
                 "/br/com/javafx/educalink/img/mtdp/inscrever-se.png")));
-        imagemBotao.setFitWidth(150);
-        imagemBotao.setFitHeight(40);
+        imagemBotao.setFitWidth(165);
+        imagemBotao.setFitHeight(45);
         imagemBotao.setPreserveRatio(true);
 
         Button botaoInscricao = new Button();
         botaoInscricao.setStyle("-fx-background-color: transparent;");
         botaoInscricao.setGraphic(imagemBotao);
 
-            botaoInscricao.setOnAction(event -> {
-                if (!estaInscrito) {
-                    estaInscrito = true;
+        botaoInscricao.setOnAction(event -> {
+            if (!estaInscrito) {
+                estaInscrito = true;
+                imagemBotao.setImage(new Image(getClass().getResourceAsStream(
+                        "/br/com/javafx/educalink/img/mtdp/inscrito.png")));
+                DadosCompartilhados.getInstancia().inscreverAluno(professor, aluno);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Desinscrição");
+                alert.setHeaderText("Deseja se desinscrever?");
+                alert.setContentText("Você perderá acesso à disciplina.");
+
+                ButtonType sim = new ButtonType("Sim");
+                ButtonType nao = new ButtonType("Não", ButtonType.CANCEL.getButtonData());
+                alert.getButtonTypes().setAll(sim, nao);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == sim) {
+                    estaInscrito = false;
                     imagemBotao.setImage(new Image(getClass().getResourceAsStream(
-                            "/br/com/javafx/educalink/img/mtdp/inscrito.png")));
-
-                    DadosCompartilhados.getInstancia().inscreverAluno(professor, aluno);
-
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Desinscrição");
-                    alert.setHeaderText("Deseja se desinscrever?");
-                    alert.setContentText("Você perderá acesso à disciplina.");
-
-                    ButtonType sim = new ButtonType("Sim");
-                    ButtonType nao = new ButtonType("Não", ButtonType.CANCEL.getButtonData());
-                    alert.getButtonTypes().setAll(sim, nao);
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == sim) {
-                        estaInscrito = false;
-                        imagemBotao.setImage(new Image(getClass().getResourceAsStream(
-                                "/br/com/javafx/educalink/img/mtdp/inscrever-se.png")));
-                        // aqui pode chamar o método para desinscrever se você tiver
-                    }
+                            "/br/com/javafx/educalink/img/mtdp/inscrever-se.png")));
                 }
-            });
+            }
+        });
 
-            container.getChildren().addAll(materiaLabel, professorLabel, botaoInscricao);
+        // linha com textos à esquerda e botão à direita, centralizado verticalmente
+        HBox linha = new HBox();
+        linha.setSpacing(20);
+        linha.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(textos, Priority.ALWAYS); // empurra o botão para a direita
+        linha.getChildren().addAll(textos, botaoInscricao);
+
+        container.getChildren().add(linha);
         listamaterias.getChildren().add(container);
     }
+
+
+
 
     @FXML
     private void clicouSair() {
