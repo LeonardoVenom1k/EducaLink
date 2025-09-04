@@ -44,7 +44,8 @@ public class AluInscritoController {
         card.setPadding(new Insets(10));
         card.setPrefHeight(60);
 
-        ImageView icone = new ImageView(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/aluinscrito/alunoinscritocard.png")));
+        ImageView icone = new ImageView(new Image(getClass().getResourceAsStream(
+                "/br/com/javafx/educalink/img/aluinscrito/Vector.png")));
         icone.setFitHeight(40);
         icone.setFitWidth(40);
 
@@ -58,6 +59,10 @@ public class AluInscritoController {
         dados.setSpacing(2);
 
         card.getChildren().addAll(icone, dados);
+
+        // 🔥 margem para separar cada card
+        VBox.setMargin(card, new Insets(5, 0, 5, 0));
+
         return card;
     }
 
