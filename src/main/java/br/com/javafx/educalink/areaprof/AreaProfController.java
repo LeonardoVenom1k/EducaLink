@@ -19,6 +19,9 @@ import java.util.Optional;
 public class AreaProfController {
 
     @FXML
+    private AluInscritoController aluInscritoController;
+
+    @FXML
     private Label lblTotalAlunos;
 
     @FXML
@@ -61,9 +64,26 @@ public class AreaProfController {
 
     @FXML
     private void abrirTelaAlunos() {
-        // abrir nova tela ou exibir os alunos
-    }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/aluinscrito.fxml"));
+            Parent root = loader.load();
 
+            // Pega o controller da tela de alunos inscritos
+            AluInscritoController controller = loader.getController();
+
+            // Envia o professor logado para que ele carregue a lista
+            controller.carregarAlunos(DadosCompartilhados.getInstancia().getAlunosInscritos(professor));
+
+            // Troca a cena no mesmo Stage
+            Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 500));
+            stage.setTitle("EducaLink - Alunos Inscritos");
+            stage.setResizable(false);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void abrirTelaPendentes() {
         // abrir atividades pendentes
@@ -72,6 +92,10 @@ public class AreaProfController {
     @FXML
     private void abrirTelaLancar() {
         // abrir tela de envio de material
+    }
+
+    public AluInscritoController getAluInscritoController() {
+        return aluInscritoController;
     }
 
     public Professor getProfessor() {

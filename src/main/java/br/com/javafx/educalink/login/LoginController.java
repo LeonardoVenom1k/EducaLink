@@ -58,6 +58,20 @@ public class LoginController {
 
         esquecisenha.setOnMouseEntered(e -> esquecisenha.setStyle("-fx-text-fill: #a53de0; -fx-underline: true; -fx-cursor: hand;"));
         esquecisenha.setOnMouseExited(e -> esquecisenha.setStyle("-fx-text-fill: #820AD1;"));
+
+        // 🔥 Registrar todos os alunos e professores no singleton
+        DadosCompartilhados dados = DadosCompartilhados.getInstancia();
+        Map<String, Aluno> alunos = criarMapaAlunos();
+        Map<String, Professor> professores = criarMapaProfessores();
+
+        for (Aluno a : alunos.values()) {
+            dados.cadastrarAluno(a);
+            for (String idProf : a.getIdsProfessores()) {
+                if (professores.containsKey(idProf)) {
+                    dados.cadastrarProfessor(professores.get(idProf));
+                }
+            }
+        }
     }
 
     public Map<String, Professor> criarMapaProfessores() {
@@ -137,6 +151,16 @@ public class LoginController {
                     controller.receberDadosAluno(alunoLogado);
                     controller.receberDadosProfessor(professoresDoAluno);
 
+                    // 🔥 Atualiza singleton (DadosCompartilhados)
+                    DadosCompartilhados dados = DadosCompartilhados.getInstancia();
+                    dados.cadastrarAluno(alunoLogado);
+
+                    for (Professor prof : professoresDoAluno) {
+                        dados.cadastrarProfessor(prof);
+                    }
+
+                    DadosCompartilhados.getInstancia().setAreaProfController(null);
+
                     stage.setScene(new Scene(root, 800, 500));
                     stage.setTitle("EducaLink - Área do Aluno");
 
@@ -149,7 +173,7 @@ public class LoginController {
                     controller.receberDadosProfessor(professorLogado);
 
                     DadosCompartilhados.getInstancia().setAreaProfController(controller);
-                    
+
                     stage.setScene(new Scene(root, 800, 500));
                     stage.setTitle("EducaLink - Área do Professor");
                     stage.show();

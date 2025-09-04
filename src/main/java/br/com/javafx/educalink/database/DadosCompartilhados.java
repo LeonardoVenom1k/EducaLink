@@ -48,7 +48,6 @@ public class DadosCompartilhados {
             inscricoesJson.get(idProf).add(aluno.getMatricula());
             salvar();
 
-            // só atualiza a UI se a tela do professor estiver aberta
             AreaProfController controller = getAreaProfController();
             if (controller != null && controller.getProfessor().getId().equals(idProf)) {
                 int total = getTotalAlunos(professor);
@@ -63,6 +62,17 @@ public class DadosCompartilhados {
         if (inscricoesJson.containsKey(idProf)) {
             inscricoesJson.get(idProf).remove(aluno.getMatricula());
             salvar();
+
+            // 🔥 Atualizar a UI do professor em tempo real
+            AreaProfController controller = getAreaProfController();
+            if (controller != null && controller.getProfessor().getId().equals(idProf)) {
+                int total = getTotalAlunos(professor);
+                controller.atualizarQtdAlunos(total);
+
+                // Recarrega a lista de cards
+                controller.getAluInscritoController()
+                        .carregarAlunos(getAlunosInscritos(professor));
+            }
         }
     }
 
