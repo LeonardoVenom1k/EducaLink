@@ -29,6 +29,11 @@ public class AluInscritoController {
     @FXML
     private VBox listaalunos;
 
+    @FXML
+    public void initialize() {
+        DadosCompartilhados.getInstancia().setAluInscritoController(this);
+    }
+
     public void carregarAlunos(List<Aluno> alunos) {
         listaalunos.getChildren().clear();
 
@@ -69,18 +74,13 @@ public class AluInscritoController {
     @FXML
     void clicouSair(ActionEvent event) {
         try {
-            // Carrega novamente a tela do painel do professor
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/areaprof.fxml"));
             Parent root = loader.load();
 
-            // Recupera o professor logado que está no singleton
+            // Usa o professor já salvo no controller
             AreaProfController areaProfController = loader.getController();
-            Professor profLogado = DadosCompartilhados.getInstancia().getAreaProfController().getProfessor();
+            areaProfController.receberDadosProfessor(this.professor);
 
-            // Passa o professor logado para a nova instância do controller
-            areaProfController.receberDadosProfessor(profLogado);
-
-            // Troca a cena
             Stage stage = (Stage) sair.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("EducaLink - Área do Professor");
@@ -89,5 +89,9 @@ public class AluInscritoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 }

@@ -74,6 +74,9 @@ public class AreaProfController {
             // Envia o professor logado para que ele carregue a lista
             controller.carregarAlunos(DadosCompartilhados.getInstancia().getAlunosInscritos(professor));
 
+            AluInscritoController aluController = loader.getController();
+            aluController.setProfessor(this.professor); // passa o professor logado
+
             // Troca a cena no mesmo Stage
             Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 500));

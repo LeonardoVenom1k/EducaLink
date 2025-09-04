@@ -1,6 +1,7 @@
 package br.com.javafx.educalink.database;
 
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.areaprof.AluInscritoController;
 import br.com.javafx.educalink.areaprof.AreaProfController;
 import br.com.javafx.educalink.professores.Professor;
 
@@ -8,6 +9,7 @@ import java.util.*;
 
 public class DadosCompartilhados {
     private AreaProfController areaProfController;
+    private AluInscritoController aluInscritoController;
     private static DadosCompartilhados instancia;
 
     private Map<String, Professor> professores = new HashMap<>();
@@ -25,6 +27,9 @@ public class DadosCompartilhados {
         return instancia;
     }
 
+    // -------------------------
+    // Controllers
+    // -------------------------
     public void setAreaProfController(AreaProfController controller) {
         this.areaProfController = controller;
     }
@@ -33,6 +38,17 @@ public class DadosCompartilhados {
         return this.areaProfController;
     }
 
+    public void setAluInscritoController(AluInscritoController controller) {
+        this.aluInscritoController = controller;
+    }
+
+    public AluInscritoController getAluInscritoController() {
+        return aluInscritoController;
+    }
+
+    // -------------------------
+    // Cadastro de entidades
+    // -------------------------
     public void cadastrarProfessor(Professor prof) {
         professores.put(prof.getId(), prof);
     }
@@ -41,13 +57,18 @@ public class DadosCompartilhados {
         alunos.put(aluno.getMatricula(), aluno);
     }
 
+    // -------------------------
+    // Inscrição e desinscrição
+    // -------------------------
     public void inscreverAluno(Professor professor, Aluno aluno) {
         String idProf = professor.getId();
         inscricoesJson.putIfAbsent(idProf, new ArrayList<>());
+
         if (!inscricoesJson.get(idProf).contains(aluno.getMatricula())) {
             inscricoesJson.get(idProf).add(aluno.getMatricula());
             salvar();
 
+            // Atualizar UI se o professor correspondente estiver logado
             AreaProfController controller = getAreaProfController();
             if (controller != null && controller.getProfessor().getId().equals(idProf)) {
                 int total = getTotalAlunos(professor);
@@ -55,7 +76,6 @@ public class DadosCompartilhados {
             }
         }
     }
-
 
     public void desinscreverAluno(Professor professor, Aluno aluno) {
         String idProf = professor.getId();
@@ -69,13 +89,18 @@ public class DadosCompartilhados {
                 int total = getTotalAlunos(professor);
                 controller.atualizarQtdAlunos(total);
 
-                // Recarrega a lista de cards
-                controller.getAluInscritoController()
-                        .carregarAlunos(getAlunosInscritos(professor));
+                // Só tenta recarregar os cards se a tela de alunos inscritos estiver aberta
+                AluInscritoController aluController = controller.getAluInscritoController();
+                if (aluController != null) {
+                    aluController.carregarAlunos(getAlunosInscritos(professor));
+                }
             }
         }
     }
 
+    // -------------------------
+    // Consultas
+    // -------------------------
     public boolean alunoEstaInscrito(Professor professor, Aluno aluno) {
         return inscricoesJson.getOrDefault(professor.getId(), Collections.emptyList())
                 .contains(aluno.getMatricula());
@@ -96,6 +121,9 @@ public class DadosCompartilhados {
         return alunosInscritos;
     }
 
+    // -------------------------
+    // Persistência
+    // -------------------------
     private void salvar() {
         InscricaoStorage.salvar(inscricoesJson);
     }
