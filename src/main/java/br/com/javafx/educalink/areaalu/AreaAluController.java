@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,9 +34,7 @@ public class AreaAluController {
     @FXML
     private Label areadoAluno;
 
-    // Armazena os dados do aluno que vieram do login
     private Aluno aluno;
-
     private List<Professor> professores;
 
     @FXML
@@ -82,9 +82,7 @@ public class AreaAluController {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
                 Stage stage = (Stage) sair.getScene().getWindow();
-                stage.setScene(new Scene(root, 800, 500));
-                stage.setTitle("EducaLink - Login");
-                stage.setResizable(false);
+                aplicarTelaCheia(stage, root, "EducaLink - Login");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,14 +100,11 @@ public class AreaAluController {
             controller.receberDadosProfessor(this.professores);
 
             Stage stage = (Stage) materias.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 500));
-            stage.setTitle("Inscrição em Matérias");
-            stage.setResizable(false);
+            aplicarTelaCheia(stage, root, "Inscrição em Matérias");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void clicouAtividades(MouseEvent event) {
@@ -127,15 +122,11 @@ public class AreaAluController {
             perfilController.receberDadosProfessor(this.professores);
 
             Stage stage = (Stage) sair.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 500));
-            stage.setTitle("Perfil do Aluno");
-            stage.setResizable(false);
-
+            aplicarTelaCheia(stage, root, "Perfil do Aluno");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     private void mostrarAlerta(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -143,5 +134,21 @@ public class AreaAluController {
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.showAndWait();
+    }
+
+    /**
+     * Força a janela para ocupar toda a tela e impede redimensionamento
+     */
+    private void aplicarTelaCheia(Stage stage, Parent root, String titulo) {
+        stage.setScene(new Scene(root));
+
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX(screenBounds.getMinX());
+        stage.setY(screenBounds.getMinY());
+        stage.setWidth(screenBounds.getWidth());
+        stage.setHeight(screenBounds.getHeight());
+
+        stage.setResizable(false);
+        stage.setTitle(titulo);
     }
 }

@@ -109,6 +109,7 @@ public class PerfilController {
                 Stage stage = (Stage) sair.getScene().getWindow();
                 stage.setScene(new Scene(root, 800, 500));
                 stage.setTitle("EducaLink - Login");
+                stage.setMaximized(true);
                 stage.setResizable(false);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -132,6 +133,7 @@ public class PerfilController {
             Stage novoStage = new Stage();
             novoStage.setScene(new Scene(root, 800, 500));
             novoStage.setTitle("Inscrição em Matérias");
+            novoStage.setMaximized(true);
             novoStage.setResizable(false);
             novoStage.show();
 
@@ -156,6 +158,7 @@ public class PerfilController {
             Stage novoStage = new Stage();
             novoStage.setScene(new Scene(root, 800, 500));
             novoStage.setTitle("EducaLink - Área do Aluno");
+            novoStage.setMaximized(true);
             novoStage.setResizable(false);
             novoStage.show();
 

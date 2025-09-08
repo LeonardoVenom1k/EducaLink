@@ -11,80 +11,70 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaprof.AreaProfController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaprof.AreaProfController">
 
     <!-- Topo -->
-    <HBox alignment="CENTER_LEFT" layoutX="0.0" layoutY="0.0" prefHeight="60.0" prefWidth="800.0" spacing="20" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
-      <Region layoutX="546.0" layoutY="10.0" prefHeight="59.0" prefWidth="0.0" />
-        <ImageView fitHeight="59.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+    <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1280.0" spacing="20" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        <ImageView fitHeight="46.0" fitWidth="162.0" preserveRatio="true">
             <image>
                 <Image url="@../img/areaprof/Logoeduca.png" />
             </image>
         </ImageView>
-      <Region layoutX="343.0" layoutY="10.0" prefHeight="59.0" prefWidth="144.0" />
-      <Label layoutX="328.0" layoutY="14.0" prefHeight="52.0" prefWidth="203.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PAINEL DO PROFESSOR">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Region layoutX="343.0" layoutY="10.0" prefHeight="59.0" prefWidth="116.0" />
-        <Button fx:id="sair" onAction="#clicouSair" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px;" text="SAIR" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Label prefHeight="37.0" prefWidth="260.0" style="-fx-font-size: 23px; -fx-font-weight: bold;" text="PAINEL DO PROFESSOR" />
+
+        <Region prefHeight="59.0" prefWidth="6.0" HBox.hgrow="ALWAYS" />
+
+        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100.0" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18;" text="SAIR" />
+      <padding>
+         <Insets left="15.0" right="15.0" />
+      </padding>
     </HBox>
 
-    <!-- Cards -->
-    <HBox layoutX="100.0" layoutY="100.0" spacing="40">
-        <!-- Card 1 - Meus Alunos -->
-        <VBox fx:id="cardAlunos" alignment="CENTER" onMouseClicked="#abrirTelaAlunos" prefHeight="143.0" prefWidth="172.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
-         <ImageView fitHeight="76.0" fitWidth="77.0">
-            <image>
-               <Image url="@../img/areaprof/users.png" />
-            </image>
-            <VBox.margin>
-               <Insets bottom="-5.0" />
-            </VBox.margin>
-         </ImageView>
-            <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Meus Alunos">
-            <VBox.margin>
-               <Insets bottom="-5.0" />
-            </VBox.margin></Label>
-            <Label fx:id="lblTotalAlunos" alignment="CENTER" prefHeight="14.0" prefWidth="22.0" text="0">
-            <font>
-               <Font name="System Bold" size="18.0" />
-            </font>
-            <VBox.margin>
-               <Insets bottom="5.0" />
-            </VBox.margin></Label>
-        </VBox>
+    <!-- Área central com os cards -->
+    <VBox alignment="CENTER" spacing="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="60">
 
-        <!-- Card 2 - Atividades Pendentes -->
-        <VBox fx:id="cardPendentes" alignment="CENTER" onMouseClicked="#abrirTelaPendentes" prefHeight="143.0" prefWidth="172.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
-         <ImageView fitHeight="77.0" fitWidth="80.0">
-            <image>
-               <Image url="@../img/areaprof/Document.png" />
-            </image>
-            <VBox.margin>
-               <Insets bottom="10.0" />
-            </VBox.margin>
-         </ImageView>
-            <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Atividades Pendentes" />
-        </VBox>
+        <HBox alignment="CENTER" prefHeight="212.0" prefWidth="1280.0" spacing="40">
 
-        <!-- Card 3 - Lançar Material -->
-        <VBox fx:id="cardLancar" alignment="CENTER" onMouseClicked="#abrirTelaLancar" prefHeight="143.0" prefWidth="172.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
-         <ImageView fitHeight="87.0" fitWidth="86.0">
-            <image>
-               <Image url="@../img/areaprof/lancarmaterial.png" />
-            </image>
-         </ImageView>
-            <Label prefHeight="19.0" prefWidth="45.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Lançar" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-            <VBox.margin>
-               <Insets bottom="-5.0" />
-            </VBox.margin></Label>
-         <Label alignment="CENTER" prefHeight="20.0" prefWidth="126.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Material/Atividade" wrapText="true">
-            <VBox.margin>
-               <Insets bottom="10.0" />
-            </VBox.margin></Label>
-        </VBox>
-    </HBox>
+            <!-- Card 1 -->
+            <VBox fx:id="cardAlunos" alignment="CENTER" onMouseClicked="#abrirTelaAlunos" prefHeight="150.0" prefWidth="250.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
+                <ImageView fitHeight="80.0" fitWidth="80.0">
+                    <image>
+                        <Image url="@../img/areaprof/users.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Meus Alunos" />
+                <Label fx:id="lblTotalAlunos" alignment="CENTER" text="0">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+            </VBox>
 
+            <!-- Card 2 -->
+            <VBox fx:id="cardPendentes" alignment="CENTER" onMouseClicked="#abrirTelaPendentes" prefHeight="150.0" prefWidth="250.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
+                <ImageView fitHeight="80.0" fitWidth="80.0">
+                    <image>
+                        <Image url="@../img/areaprof/Document.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Atividades Pendentes" />
+            </VBox>
+
+            <!-- Card 3 -->
+            <VBox fx:id="cardLancar" alignment="CENTER" onMouseClicked="#abrirTelaLancar" prefHeight="143.0" prefWidth="250.0" spacing="10" style="-fx-background-color: #f9f9f9; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);">
+                <ImageView fitHeight="90.0" fitWidth="90.0">
+                    <image>
+                        <Image url="@../img/areaprof/lancarmaterial.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Lançar" />
+                <Label alignment="CENTER" style="-fx-font-size: 20; -fx-font-weight: bold;" text="Material/Atividade" wrapText="true" />
+            </VBox>
+
+        </HBox>
+    </VBox>
 </AnchorPane>

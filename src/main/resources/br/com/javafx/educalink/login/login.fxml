@@ -8,83 +8,94 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.login.LoginController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.login.LoginController">
 
-    <ImageView fitHeight="500" fitWidth="800">
+    <!-- Fundo sempre ocupando a tela -->
+    <ImageView preserveRatio="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
         <image>
             <Image url="@../img/login/fundologin.png" />
         </image>
     </ImageView>
 
-    <ImageView fitHeight="500" fitWidth="353" layoutX="447">
-        <image>
-            <Image url="@../img/login/Rectangle.png" />
-        </image>
-    </ImageView>
+    <!-- Caixa da direita -->
+    <VBox alignment="TOP_CENTER" layoutX="1055.0" prefHeight="1024.0" prefWidth="481.0" spacing="15" style="-fx-background-color: white;              -fx-background-radius: 20 0 0 20;              -fx-opacity: 0.9;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-9.0" AnchorPane.topAnchor="0.0">
 
-    <ImageView fitHeight="32" fitWidth="34" layoutX="528" layoutY="103">
-        <image>
-            <Image url="@../img/login/Link.png" />
-        </image>
-    </ImageView>
+        <!-- Logo Educalink -->
+        <HBox alignment="CENTER" prefHeight="140.0" prefWidth="481.0" spacing="10" style="-fx-padding: 40 0 0 0;" />
+      <HBox alignment="CENTER" prefHeight="92.0" prefWidth="394.0" spacing="10" style="-fx-padding: 40 0 0 0;">
+         <children>
+               <ImageView fitHeight="47.0" fitWidth="47.0">
+                   <image>
+                       <Image url="@../img/login/Link.png" />
+                   </image>
+               </ImageView>
+               <ImageView fitHeight="45.0" fitWidth="223.0">
+                   <image>
+                       <Image url="@../img/login/EducaLink.png" />
+                   </image>
+               </ImageView>
+         </children>
+      </HBox>
 
-    <ImageView fitHeight="32" fitWidth="182" layoutX="562" layoutY="103">
-        <image>
-            <Image url="@../img/login/EducaLink.png" />
-        </image>
-    </ImageView>
-
-    <ImageView fitHeight="32" fitWidth="161" layoutX="536" layoutY="146">
-        <image>
-            <Image url="@../img/login/bemvindoa.png" />
-        </image>
-    </ImageView>
-
-    <HBox alignment="CENTER_LEFT" layoutX="528" layoutY="205" prefHeight="38" prefWidth="218" spacing="10" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
-        <ImageView fitHeight="20" fitWidth="20">
+        <!-- Bem-vindo -->
+        <ImageView fitHeight="46.0" fitWidth="261.0">
             <image>
-                <Image url="@../img/login/Usericon.png" />
+                <Image url="@../img/login/bemvindoa.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="20" fitWidth="1">
-            <image>
-                <Image url="@../img/login/Line.png" />
-            </image>
-        </ImageView>
-        <TextField fx:id="matricula" focusTraversable="false" prefWidth="160" promptText="Matrícula" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" />
-    </HBox>
 
-    <HBox alignment="CENTER_LEFT" layoutX="528" layoutY="259" prefHeight="38" prefWidth="218" spacing="10" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
-        <ImageView fitHeight="20" fitWidth="20">
-            <image>
-                <Image url="@../img/login/Senhaicon.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="20" fitWidth="1">
-            <image>
-                <Image url="@../img/login/Line.png" />
-            </image>
-        </ImageView>
-        <PasswordField fx:id="senha" focusTraversable="false" prefWidth="130" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" />
-        <TextField fx:id="senhaVisivel" focusTraversable="false" managed="false" prefWidth="130" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" visible="false" />
-        <ImageView fx:id="iconSenha" fitHeight="20" fitWidth="20" onMouseClicked="#alternarSenha">
-            <image>
-                <Image url="@../img/login/eye.png" />
-            </image>
-        </ImageView>
-    </HBox>
+        <!-- Campo Matrícula -->
+        <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="260.0" spacing="10" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
+         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="110.0" spacing="10" style="-fx-padding: 40 0 0 0;" />
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+                <image>
+                    <Image url="@../img/login/Usericon.png" />
+                </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="1">
+                <image>
+                    <Image url="@../img/login/Line.png" />
+                </image>
+            </ImageView>
+            <TextField fx:id="matricula" focusTraversable="false" prefWidth="159.0" promptText="Matrícula" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" />
+        </HBox>
 
-    <Button fx:id="entrar" layoutX="580" layoutY="318" onAction="#entrar"
-            defaultButton="true" prefHeight="32" prefWidth="87"
-            style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Entrar">
-        <font>
-            <Font name="System Bold" size="17" />
-        </font>
-    </Button>
+        <!-- Campo Senha -->
+        <HBox alignment="CENTER_LEFT" prefHeight="38" prefWidth="260" spacing="10" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
+         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="110.0" spacing="10" style="-fx-padding: 40 0 0 0;" />
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+                <image>
+                    <Image url="@../img/login/Senhaicon.png" />
+                </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="1">
+                <image>
+                    <Image url="@../img/login/Line.png" />
+                </image>
+            </ImageView>
+            <PasswordField fx:id="senha" focusTraversable="false" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" />
+            <TextField fx:id="senhaVisivel" focusTraversable="false" managed="false" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" visible="false" />
+            <ImageView fx:id="iconSenha" fitHeight="20" fitWidth="20" onMouseClicked="#alternarSenha">
+                <image>
+                    <Image url="@../img/login/eye.png" />
+                </image>
+            </ImageView>
+        </HBox>
 
+        <!-- Botão Entrar -->
+        <Button fx:id="entrar" defaultButton="true" onAction="#entrar" prefHeight="45.0" prefWidth="120" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Entrar">
+            <font>
+                <Font name="System Bold" size="17" />
+            </font>
+        </Button>
 
-    <Hyperlink fx:id="esquecisenha" layoutX="574" layoutY="356" onMouseClicked="#esquecisenha" style="-fx-text-fill: #820AD1;" text="Esqueceu a senha?" />
+        <!-- Esqueceu a senha -->
+        <Hyperlink fx:id="esquecisenha" onMouseClicked="#esquecisenha" prefHeight="24.0" prefWidth="110.0" style="-fx-text-fill: #820AD1;" text="Esqueceu a senha?" />
+
+    </VBox>
 
 </AnchorPane>

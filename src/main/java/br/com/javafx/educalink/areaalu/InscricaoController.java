@@ -168,6 +168,7 @@ public class InscricaoController {
                 Stage stage = (Stage) sair.getScene().getWindow();
                 stage.setScene(new Scene(root, 800, 500));
                 stage.setTitle("EducaLink - Login");
+                stage.setMaximized(true);
                 stage.setResizable(false);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -199,6 +200,7 @@ public class InscricaoController {
             Stage stage = (Stage) atividades.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("Área do Aluno");
+            stage.setMaximized(true);
             stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,6 +220,7 @@ public class InscricaoController {
             Stage stage = (Stage) areadoAluno.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("Perfil do Aluno");
+            stage.setMaximized(true);
             stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();

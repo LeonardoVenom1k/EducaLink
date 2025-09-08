@@ -18,6 +18,7 @@ public class PlayTest extends Application {
 
             primaryStage.setTitle("EducaLink - Login");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.setResizable(false);
             primaryStage.show();
 

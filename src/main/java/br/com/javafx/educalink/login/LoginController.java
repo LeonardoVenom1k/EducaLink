@@ -7,12 +7,14 @@ import br.com.javafx.educalink.professores.Professor;
 import br.com.javafx.educalink.areaprof.AreaProfController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -161,7 +163,15 @@ public class LoginController {
 
                     DadosCompartilhados.getInstancia().setAreaProfController(null);
 
-                    stage.setScene(new Scene(root, 800, 500));
+                    stage.setScene(new Scene(root));
+
+                    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                    stage.setX(screenBounds.getMinX());
+                    stage.setY(screenBounds.getMinY());
+                    stage.setWidth(screenBounds.getWidth());
+                    stage.setHeight(screenBounds.getHeight());
+
+                    stage.setResizable(false); // 🔒 funciona, mas mantendo tela cheia
                     stage.setTitle("EducaLink - Área do Aluno");
 
                 } else if (professores.containsKey(user)) {
@@ -174,12 +184,18 @@ public class LoginController {
 
                     DadosCompartilhados.getInstancia().setAreaProfController(controller);
 
-                    stage.setScene(new Scene(root, 800, 500));
+                    stage.setScene(new Scene(root));
+
+                    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                    stage.setX(screenBounds.getMinX());
+                    stage.setY(screenBounds.getMinY());
+                    stage.setWidth(screenBounds.getWidth());
+                    stage.setHeight(screenBounds.getHeight());
+
+                    stage.setResizable(false); // 🔒 funciona, mas mantendo tela cheia
                     stage.setTitle("EducaLink - Área do Professor");
                     stage.show();
                 }
-
-                stage.setResizable(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
