@@ -22,7 +22,7 @@
     </ImageView>
 
     <!-- Caixa da direita -->
-    <VBox alignment="TOP_CENTER" layoutX="1055.0" prefHeight="1024.0" prefWidth="481.0" spacing="15" style="-fx-background-color: white;              -fx-background-radius: 20 0 0 20;              -fx-opacity: 0.9;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-9.0" AnchorPane.topAnchor="0.0">
+    <VBox alignment="TOP_CENTER" layoutX="1055.0" prefHeight="1024.0" prefWidth="481.0" spacing="15" style="-fx-background-color: white; -fx-background-radius: 20 0 0 20; -fx-opacity: 0.9;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-9.0" AnchorPane.topAnchor="0.0">
 
         <!-- Logo Educalink -->
         <HBox alignment="CENTER" prefHeight="140.0" prefWidth="481.0" spacing="10" style="-fx-padding: 40 0 0 0;" />
@@ -61,13 +61,16 @@
                     <Image url="@../img/login/Line.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="matricula" focusTraversable="false" prefWidth="159.0" promptText="Matrícula" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" />
+            <TextField fx:id="matricula" focusTraversable="false" prefWidth="159.0" promptText="Matrícula" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;">
+            <font>
+               <Font size="15.0" />
+            </font></TextField>
         </HBox>
 
         <!-- Campo Senha -->
         <HBox alignment="CENTER_LEFT" prefHeight="38" prefWidth="260" spacing="10" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
-         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="110.0" spacing="10" style="-fx-padding: 40 0 0 0;" />
-            <ImageView fitHeight="30.0" fitWidth="30.0">
+         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="115.0" spacing="10" style="-fx-padding: 40 0 0 0;" />
+            <ImageView fitHeight="25.0" fitWidth="25.0">
                 <image>
                     <Image url="@../img/login/Senhaicon.png" />
                 </image>
@@ -77,11 +80,14 @@
                     <Image url="@../img/login/Line.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="senha" focusTraversable="false" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" />
-            <TextField fx:id="senhaVisivel" focusTraversable="false" managed="false" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" visible="false" />
-            <ImageView fx:id="iconSenha" fitHeight="20" fitWidth="20" onMouseClicked="#alternarSenha">
+            <PasswordField fx:id="senha" focusTraversable="false" prefWidth="159.0" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;">
+            <font>
+               <Font size="15.0" />
+            </font></PasswordField>
+            <TextField fx:id="senhaVisivel" focusTraversable="false" managed="false" prefWidth="159.0" promptText="********" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-text-fill: #333;" visible="false" />
+            <ImageView fx:id="iconSenha" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#alternarSenha">
                 <image>
-                    <Image url="@../img/login/eye.png" />
+                    <Image url="@../img/login/eye_block.png" />
                 </image>
             </ImageView>
         </HBox>

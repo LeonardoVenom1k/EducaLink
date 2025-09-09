@@ -54,8 +54,8 @@ public class PerfilController {
         setupHover(atividades, estiloHover, estiloPadrao);
         setupHover(areadoAluno, estiloHover, estiloPadrao);
 
-        sair.setOnMouseEntered(e -> sair.setStyle("-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px; -fx-cursor: hand;"));
-        sair.setOnMouseExited(e -> sair.setStyle("-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px;"));
+        sair.setOnMouseEntered(e -> sair.setStyle("-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
+        sair.setOnMouseExited(e -> sair.setStyle("-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px;"));
     }
 
     public void receberDadosProfessor(List<Professor> professores) {

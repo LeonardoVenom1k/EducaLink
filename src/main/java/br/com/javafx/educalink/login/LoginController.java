@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
@@ -50,14 +51,18 @@ public class LoginController {
     private void initialize() {
         senhaVisivel.setVisible(false);
 
+        // mantém os campos sincronizados
         senhaVisivel.textProperty().addListener((obs, oldText, newText) -> senha.setText(newText));
         senha.textProperty().addListener((obs, oldText, newText) -> senhaVisivel.setText(newText));
 
+        // cursor de mão no ícone
         iconSenha.setStyle("-fx-cursor: hand;");
 
+        // efeito hover botão entrar
         entrar.setOnMouseEntered(e -> entrar.setStyle("-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand;"));
         entrar.setOnMouseExited(e -> entrar.setStyle("-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;"));
 
+        // efeito hover link esqueci senha
         esquecisenha.setOnMouseEntered(e -> esquecisenha.setStyle("-fx-text-fill: #a53de0; -fx-underline: true; -fx-cursor: hand;"));
         esquecisenha.setOnMouseExited(e -> esquecisenha.setStyle("-fx-text-fill: #820AD1;"));
 
@@ -153,7 +158,6 @@ public class LoginController {
                     controller.receberDadosAluno(alunoLogado);
                     controller.receberDadosProfessor(professoresDoAluno);
 
-                    // 🔥 Atualiza singleton (DadosCompartilhados)
                     DadosCompartilhados dados = DadosCompartilhados.getInstancia();
                     dados.cadastrarAluno(alunoLogado);
 
@@ -171,7 +175,7 @@ public class LoginController {
                     stage.setWidth(screenBounds.getWidth());
                     stage.setHeight(screenBounds.getHeight());
 
-                    stage.setResizable(false); // 🔒 funciona, mas mantendo tela cheia
+                    stage.setResizable(false);
                     stage.setTitle("EducaLink - Área do Aluno");
 
                 } else if (professores.containsKey(user)) {
@@ -192,7 +196,7 @@ public class LoginController {
                     stage.setWidth(screenBounds.getWidth());
                     stage.setHeight(screenBounds.getHeight());
 
-                    stage.setResizable(false); // 🔒 funciona, mas mantendo tela cheia
+                    stage.setResizable(false);
                     stage.setTitle("EducaLink - Área do Professor");
                     stage.show();
                 }
@@ -222,6 +226,10 @@ public class LoginController {
             senha.setManaged(false);
             senhaVisivel.requestFocus();
             senhaVisivel.positionCaret(senhaVisivel.getText().length());
+
+            // 👁️ mudar ícone para olho aberto
+            iconSenha.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/login/eye_view.png")));
+
         } else {
             senha.setText(senhaVisivel.getText());
             senha.setVisible(true);
@@ -230,6 +238,9 @@ public class LoginController {
             senhaVisivel.setManaged(false);
             senha.requestFocus();
             senha.positionCaret(senha.getText().length());
+
+            // 👁️ mudar ícone para olho fechado
+            iconSenha.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/login/eye_block.png")));
         }
     }
 
