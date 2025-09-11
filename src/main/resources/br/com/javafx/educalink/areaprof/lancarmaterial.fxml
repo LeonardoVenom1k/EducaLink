@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="br.com.javafx.educalink.areaprof.LancarMaterial"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaprof.LancarMaterialController">
+   <children>
+      <!-- TOPO -->
+      <HBox alignment="CENTER_LEFT" prefHeight="68.0" spacing="20" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+         <padding>
+            <Insets left="15.0" right="15.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="46.0" fitWidth="162.0" preserveRatio="true">
+               <image>
+                  <Image url="@../img/areaprof/Logoeduca.png" />
+               </image>
+            </ImageView>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="MATERIAL/ATIVIDADE" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100.0" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18;" text="VOLTAR" />
+         </children>
+      </HBox>
 
+      <!-- CONTEÚDO -->
+      <VBox spacing="20" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="90.0">
+         <children>
+            <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="CADASTRO DE ATIVIDADE OU MATÉRIA" />
+
+            <!-- Linha ComboBox -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+               <children>
+                  <Label style="-fx-font-size:14;" text="Matéria ou Atividade" />
+                  <ComboBox fx:id="tipoCombo" prefWidth="200.0">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Matéria" />
+                           <String fx:value="Atividade" />
+                        </FXCollections>
+                     </items>
+                  </ComboBox>
+               </children>
+            </HBox>
+
+            <!-- Linha Assunto -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+               <children>
+                  <Label style="-fx-font-size:14;" text="Assunto:" />
+                  <TextField fx:id="assuntoField" maxWidth="500.0" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+               </children>
+            </HBox>
+
+            <TextArea fx:id="anexosArea" editable="false" maxHeight="400.0" prefHeight="100.0" promptText="Arquivos anexados aparecerão aqui..." VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextArea>
+
+
+            <!-- Botões -->
+            <HBox spacing="15">
+               <children>
+                  <Button fx:id="anexarBtn" onAction="#clicouAnexar" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Anexar arquivos">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="cadastrarBtn" onAction="#clicouCadastrar" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Enviar">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>

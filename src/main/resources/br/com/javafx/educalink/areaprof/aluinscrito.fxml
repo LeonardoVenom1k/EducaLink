@@ -37,7 +37,7 @@
         <Region HBox.hgrow="ALWAYS" />
 
         <!-- Botão sair -->
-        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px;" text="SAIR" />
+        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px;" text="VOLTAR" />
       <padding>
          <Insets left="15.0" right="15.0" />
       </padding>

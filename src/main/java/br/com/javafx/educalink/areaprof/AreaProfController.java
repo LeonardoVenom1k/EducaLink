@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -95,7 +96,7 @@ public class AreaProfController {
 
             // Troca a cena no mesmo Stage
             Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 500));
+            stage.setScene(new Scene(root));
             stage.setTitle("EducaLink - Alunos Inscritos");
             stage.setResizable(false);
 
@@ -105,17 +106,48 @@ public class AreaProfController {
     }
 
     @FXML
-    private void abrirTelaPendentes() {
-        // abrir atividades pendentes
+    private void abrirTelaPendentes(MouseEvent event) {
+        mostrarAlerta("Tela em desenvolvimento...");
     }
 
     @FXML
-    private void abrirTelaLancar() {
-        // abrir tela de envio de material
+    private void abrirTelaLancar(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/lancarmaterial.fxml"));
+            Parent root = loader.load();
+
+            // Pega o controller da tela de alunos inscritos
+            LancarMaterialController controller = loader.getController();
+
+            // Envia o professor logado para que ele carregue a lista
+            controller.carregarAlunos(DadosCompartilhados.getInstancia().getAlunosInscritos(professor));
+
+            LancarMaterialController lancarmaterial = loader.getController();
+            lancarmaterial.setProfessor(this.professor); // passa o professor loga
+
+            Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("EducaLink - Lançar Material/Atividade");
+            stage.setMaximized(true);
+            stage.setResizable(true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro ao abrir a tela de lançamento!");
+        }
     }
+
 
     public AluInscritoController getAluInscritoController() {
         return aluInscritoController;
+    }
+
+    private void mostrarAlerta(String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informação");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 
     public Professor getProfessor() {
@@ -143,7 +175,17 @@ public class AreaProfController {
         stExit.setToX(1);
         stExit.setToY(1);
 
-        card.setOnMouseEntered(e -> stEnter.playFromStart());
-        card.setOnMouseExited(e -> stExit.playFromStart());
+        String estiloOriginal = card.getStyle(); // pega o estilo atual
+
+        card.setOnMouseEntered(e -> {
+            stEnter.playFromStart();
+            card.setStyle(estiloOriginal + "; -fx-cursor: hand;"); // mantém o original e adiciona cursor
+        });
+
+        card.setOnMouseExited(e -> {
+            stExit.playFromStart();
+            card.setStyle(estiloOriginal); // volta ao estilo original
+        });
     }
+
 }
