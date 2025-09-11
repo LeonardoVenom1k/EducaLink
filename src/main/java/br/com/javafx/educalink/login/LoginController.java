@@ -5,6 +5,7 @@ import br.com.javafx.educalink.alunos.Aluno;
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
 import br.com.javafx.educalink.areaprof.AreaProfController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -167,16 +168,20 @@ public class LoginController {
 
                     DadosCompartilhados.getInstancia().setAreaProfController(null);
 
-                    stage.setScene(new Scene(root));
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setTitle("EducaLink - Área do Aluno");
 
+                    // 🔥 pega as dimensões reais da tela
                     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                     stage.setX(screenBounds.getMinX());
                     stage.setY(screenBounds.getMinY());
                     stage.setWidth(screenBounds.getWidth());
                     stage.setHeight(screenBounds.getHeight());
 
-                    stage.setResizable(false);
-                    stage.setTitle("EducaLink - Área do Aluno");
+                    stage.setResizable(true);
+                    stage.show();
+
 
                 } else if (professores.containsKey(user)) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/areaprof.fxml"));
@@ -188,17 +193,20 @@ public class LoginController {
 
                     DadosCompartilhados.getInstancia().setAreaProfController(controller);
 
-                    stage.setScene(new Scene(root));
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setTitle("EducaLink - Área do Professor");
 
+                    // 🔥 pega as dimensões reais da tela
                     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                     stage.setX(screenBounds.getMinX());
                     stage.setY(screenBounds.getMinY());
                     stage.setWidth(screenBounds.getWidth());
                     stage.setHeight(screenBounds.getHeight());
 
-                    stage.setResizable(false);
-                    stage.setTitle("EducaLink - Área do Professor");
+                    stage.setResizable(true);
                     stage.show();
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

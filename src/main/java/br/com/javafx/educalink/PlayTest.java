@@ -14,12 +14,12 @@ public class PlayTest extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
             Parent root = fxmlLoader.load();
 
-            Scene scene = new Scene(root, 800, 500);
+            Scene scene = new Scene(root);
 
             primaryStage.setTitle("EducaLink - Login");
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(true);
             primaryStage.show();
 
         } catch (Exception e) {

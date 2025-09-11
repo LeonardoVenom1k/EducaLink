@@ -60,9 +60,9 @@ public class InscricaoController {
         setupHover(areadoAluno, estiloLabelHover, estiloLabelPadrao);
 
         sair.setOnMouseEntered(e -> sair.setStyle(
-                "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px; -fx-cursor: hand;"));
+                "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
         sair.setOnMouseExited(e -> sair.setStyle(
-                "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px; -fx-cursor: hand;"));
+                "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
     }
 
     private void setupHover(Label label, String estiloHover, String estiloPadrao) {
@@ -169,7 +169,7 @@ public class InscricaoController {
                 stage.setScene(new Scene(root, 800, 500));
                 stage.setTitle("EducaLink - Login");
                 stage.setMaximized(true);
-                stage.setResizable(false);
+                stage.setResizable(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -200,8 +200,6 @@ public class InscricaoController {
             Stage stage = (Stage) atividades.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("Área do Aluno");
-            stage.setMaximized(true);
-            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -221,7 +219,7 @@ public class InscricaoController {
             stage.setScene(new Scene(root, 800, 500));
             stage.setTitle("Perfil do Aluno");
             stage.setMaximized(true);
-            stage.setResizable(false);
+            stage.setResizable(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

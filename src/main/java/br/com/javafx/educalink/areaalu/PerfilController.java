@@ -109,8 +109,6 @@ public class PerfilController {
                 Stage stage = (Stage) sair.getScene().getWindow();
                 stage.setScene(new Scene(root, 800, 500));
                 stage.setTitle("EducaLink - Login");
-                stage.setMaximized(true);
-                stage.setResizable(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -127,15 +125,14 @@ public class PerfilController {
             inscricaoController.receberDadosAluno(this.aluno);
             inscricaoController.receberDadosProfessor(this.professores);
 
-            Stage stageAtual = (Stage) sair.getScene().getWindow();
-            stageAtual.close();
+            Stage stage = (Stage) sair.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Inscrição em Matérias");
 
-            Stage novoStage = new Stage();
-            novoStage.setScene(new Scene(root, 800, 500));
-            novoStage.setTitle("Inscrição em Matérias");
-            novoStage.setMaximized(true);
-            novoStage.setResizable(false);
-            novoStage.show();
+            // força abrir maximizado SEM dar aquele "pulo"
+            stage.setMaximized(true);
+            stage.setResizable(true);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,15 +149,13 @@ public class PerfilController {
             areaAluController.receberDadosAluno(this.aluno);
             areaAluController.receberDadosProfessor(this.professores);
 
-            Stage stageAtual = (Stage) sair.getScene().getWindow();
-            stageAtual.close();
+            Stage stage = (Stage) sair.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("EducaLink - Área do Aluno");
 
-            Stage novoStage = new Stage();
-            novoStage.setScene(new Scene(root, 800, 500));
-            novoStage.setTitle("EducaLink - Área do Aluno");
-            novoStage.setMaximized(true);
-            novoStage.setResizable(false);
-            novoStage.show();
+            stage.setMaximized(true);
+            stage.setResizable(true);
 
         } catch (IOException e) {
             e.printStackTrace();

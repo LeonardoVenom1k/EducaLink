@@ -44,7 +44,7 @@
     </HBox>
 
     <!-- CONTEÚDO -->
-    <VBox layoutY="107.0" prefHeight="593.0" prefWidth="1311.0" spacing="40" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="107.0">
+    <VBox layoutY="118.0" prefHeight="562.0" prefWidth="1311.0" spacing="40" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="118.0">
 
         <!-- Parte 1 -->
         <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Atividades que requerem atenção!" />

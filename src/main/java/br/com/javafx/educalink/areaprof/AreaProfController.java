@@ -2,6 +2,7 @@ package br.com.javafx.educalink.areaprof;
 
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,13 +11,24 @@ import javafx.scene.control.ButtonType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class AreaProfController {
+
+    @FXML
+    private VBox cardAlunos;
+
+    @FXML
+    private VBox cardPendentes;
+
+    @FXML
+    private VBox cardLancar;
 
     @FXML
     private AluInscritoController aluInscritoController;
@@ -39,6 +51,10 @@ public class AreaProfController {
 
         // Clique no botão
         sair.setOnAction(this::clicouSair);
+
+        aplicarAnimacaoCard(cardAlunos);
+        aplicarAnimacaoCard(cardPendentes);
+        aplicarAnimacaoCard(cardLancar);
     }
 
     @FXML
@@ -87,6 +103,7 @@ public class AreaProfController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void abrirTelaPendentes() {
         // abrir atividades pendentes
@@ -115,5 +132,18 @@ public class AreaProfController {
 
         int total = DadosCompartilhados.getInstancia().getTotalAlunos(professor);
         lblTotalAlunos.setText(String.valueOf(total));
+    }
+
+    private void aplicarAnimacaoCard(VBox card) {
+        ScaleTransition stEnter = new ScaleTransition(Duration.millis(150), card);
+        stEnter.setToX(1.05);
+        stEnter.setToY(1.05);
+
+        ScaleTransition stExit = new ScaleTransition(Duration.millis(150), card);
+        stExit.setToX(1);
+        stExit.setToY(1);
+
+        card.setOnMouseEntered(e -> stEnter.playFromStart());
+        card.setOnMouseExited(e -> stExit.playFromStart());
     }
 }

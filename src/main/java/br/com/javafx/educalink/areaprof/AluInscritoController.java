@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import br.com.javafx.educalink.alunos.Aluno;
 import javafx.stage.Stage;
@@ -31,6 +33,13 @@ public class AluInscritoController {
 
     @FXML
     public void initialize() {
+        sair.setOnMouseEntered(e -> sair.setStyle(
+                "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
+        sair.setOnMouseExited(e -> sair.setStyle(
+                "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
+
+        sair.setOnAction(this::clicouSair);
+
         DadosCompartilhados.getInstancia().setAluInscritoController(this);
     }
 
@@ -47,26 +56,31 @@ public class AluInscritoController {
         HBox card = new HBox(10);
         card.setStyle("-fx-background-color: #820AD1; -fx-background-radius: 8;");
         card.setPadding(new Insets(10));
-        card.setPrefHeight(60);
+        card.setPrefHeight(80);
 
         ImageView icone = new ImageView(new Image(getClass().getResourceAsStream(
                 "/br/com/javafx/educalink/img/aluinscrito/Vector.png")));
-        icone.setFitHeight(40);
-        icone.setFitWidth(40);
+        icone.setFitHeight(70);
+        icone.setFitWidth(70);
 
         Label lblNome = new Label(nome);
-        lblNome.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;");
+        lblNome.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 25px;");
 
         Label lblEmail = new Label(email);
-        lblEmail.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+        lblEmail.setStyle("-fx-text-fill: white; -fx-font-size: 20px;");
 
+        // VBox para empilhar nome e email
         VBox dados = new VBox(lblNome, lblEmail);
-        dados.setSpacing(2);
+        dados.setSpacing(7);
+        dados.setAlignment(Pos.CENTER); // centraliza dentro do VBox
+
+        // 🔥 Faz o VBox ocupar todo o espaço disponível no HBox
+        HBox.setHgrow(dados, Priority.ALWAYS);
 
         card.getChildren().addAll(icone, dados);
 
         // 🔥 margem para separar cada card
-        VBox.setMargin(card, new Insets(5, 0, 5, 0));
+        VBox.setMargin(card, new Insets(10, 0, 10, 0));
 
         return card;
     }

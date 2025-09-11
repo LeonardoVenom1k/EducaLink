@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -10,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500" prefWidth="800" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaalu.InscricaoController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaalu.InscricaoController">
 
     <!-- Cabeçalho fixo no topo -->
-    <HBox alignment="CENTER" layoutX="0" layoutY="0" prefWidth="800" spacing="15" style="-fx-background-color: white; -fx-border-color: #C3C3C3; -fx-border-width: 0 0 2 0;">
+    <HBox alignment="CENTER" prefHeight="68.0" prefWidth="1280.0" spacing="15" style="-fx-background-color: white; -fx-border-color: #C3C3C3; -fx-border-width: 0 0 2 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
         <!-- LOGO -->
-        <ImageView fitHeight="37.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="46.0" fitWidth="162.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../img/mtdp/Logoeduca.png" />
             </image>
@@ -24,36 +25,43 @@
 
         <!-- Links simulados -->
         <HBox alignment="CENTER_LEFT" spacing="20">
-         <Label fx:id="materias" onMouseClicked="#clicouMaterias" text="Matérias">
-            <font>
-               <Font name="System Bold" size="15.0" />
-            </font>
-         </Label>
-         <Label fx:id="atividades" onMouseClicked="#clicouAtividades" text="Atividades">
-            <font>
-               <Font name="System Bold" size="15.0" />
-            </font>
-         </Label>
-         <Label fx:id="areadoAluno" onMouseClicked="#clicouAreaAluno" text="Área do Aluno">
-            <font>
-               <Font name="System Bold" size="15.0" />
-            </font>
-         </Label>
+            <Label fx:id="materias" onMouseClicked="#clicouMaterias" text="Matérias">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+            <Label fx:id="atividades" onMouseClicked="#clicouAtividades" text="Atividades">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+            <Label fx:id="areadoAluno" onMouseClicked="#clicouAreaAluno" text="Área do Aluno">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+         <HBox.margin>
+            <Insets left="5.0" />
+         </HBox.margin>
         </HBox>
 
         <!-- Espaçador -->
-        <Pane layoutX="400.0" layoutY="20.0" prefHeight="48.0" prefWidth="198.0" />
+        <Pane prefHeight="66.0" prefWidth="592.0" HBox.hgrow="ALWAYS" />
 
         <!-- Botão sair -->
-        <Button fx:id="sair" onAction="#clicouSair" style="-fx-background-color: #820AD1; -fx-text-fill: white;                 -fx-background-radius: 20; -fx-font-size: 14px; -fx-pref-width: 100px;" text="SAIR" />
+        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px;" text="SAIR" />
+      <padding>
+         <Insets left="15.0" right="15.0" />
+      </padding>
     </HBox>
 
-    <!-- Lista de matérias -->
-    <VBox fx:id="listamaterias" layoutX="35.0" layoutY="118.0" prefHeight="365.0" prefWidth="732.0" style="-fx-background-color: #F9F9F9; -fx-background-radius: 10; -fx-border-color: #DDDDDD; -fx-border-radius: 10; -fx-padding: 10;" />
-   <Label layoutX="35.0" layoutY="86.0" text="Matérias Disponíveis">
-      <font>
-         <Font name="System Bold" size="22.0" />
-      </font>
-   </Label>
+    <!-- Título -->
+    <Label text="Matérias Disponíveis" AnchorPane.leftAnchor="35" AnchorPane.topAnchor="80">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
 
+    <!-- Lista de matérias -->
+    <VBox fx:id="listamaterias" layoutX="35.0" layoutY="131.0" prefHeight="550.0" prefWidth="1210.0" style="-fx-background-color: #F9F9F9; -fx-background-radius: 10; -fx-border-color: #DDDDDD; -fx-border-radius: 10; -fx-padding: 10;" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="131.0" />
 </AnchorPane>

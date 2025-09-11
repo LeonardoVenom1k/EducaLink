@@ -14,23 +14,23 @@ public class PlayFaitec extends Application {
             //Tela 1
             FXMLLoader loaderProfessor = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
             Parent rootProfessor = loaderProfessor.load();
-            Scene sceneProfessor = new Scene(rootProfessor, 800, 500);
+            Scene sceneProfessor = new Scene(rootProfessor);
             Stage stageProfessor = new Stage();
             stageProfessor.setTitle("EducaLink - Login");
             stageProfessor.setScene(sceneProfessor);
-            stageProfessor.setResizable(false);
-            stageProfessor.setX(stageProfessor.getX() - 500);
+            stageProfessor.setMaximized(true);
+            stageProfessor.setResizable(true);
             stageProfessor.show();
 
             // Tela 2
             FXMLLoader loaderAluno = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
             Parent rootAluno = loaderAluno.load();
-            Scene sceneAluno = new Scene(rootAluno, 800, 500);
+            Scene sceneAluno = new Scene(rootAluno);
             Stage stageAluno = new Stage();
             stageAluno.setTitle("EducaLink - Login");
             stageAluno.setScene(sceneAluno);
-            stageAluno.setResizable(false);
-            stageAluno.setX(stageProfessor.getX() + 500);
+            stageAluno.setMaximized(true);
+            stageAluno.setResizable(true);
             stageAluno.show();
 
         } catch (Exception e) {

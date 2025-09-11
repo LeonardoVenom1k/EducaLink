@@ -82,7 +82,7 @@ public class AreaAluController {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
                 Stage stage = (Stage) sair.getScene().getWindow();
-                aplicarTelaCheia(stage, root, "EducaLink - Login");
+                trocaCena(stage, root, "EducaLink - Login");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -100,7 +100,7 @@ public class AreaAluController {
             controller.receberDadosProfessor(this.professores);
 
             Stage stage = (Stage) materias.getScene().getWindow();
-            aplicarTelaCheia(stage, root, "Inscrição em Matérias");
+            trocaCena(stage, root, "Inscrição em Matérias");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class AreaAluController {
             perfilController.receberDadosProfessor(this.professores);
 
             Stage stage = (Stage) sair.getScene().getWindow();
-            aplicarTelaCheia(stage, root, "Perfil do Aluno");
+            trocaCena(stage, root, "Perfil do Aluno");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,19 +136,20 @@ public class AreaAluController {
         alert.showAndWait();
     }
 
-    /**
-     * Força a janela para ocupar toda a tela e impede redimensionamento
-     */
-    private void aplicarTelaCheia(Stage stage, Parent root, String titulo) {
-        stage.setScene(new Scene(root));
-
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX(screenBounds.getMinX());
-        stage.setY(screenBounds.getMinY());
-        stage.setWidth(screenBounds.getWidth());
-        stage.setHeight(screenBounds.getHeight());
-
-        stage.setResizable(false);
+    private void trocaCena(Stage stage, Parent root, String titulo) {
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.setTitle(titulo);
+
+        // 🔥 sempre maximiza
+        stage.setMaximized(true);
+        stage.setResizable(true);
+
+        // 🔄 se um dia não quiser maximizar, centraliza na tela
+        if (!stage.isMaximized()) {
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+            stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
+        }
     }
 }
