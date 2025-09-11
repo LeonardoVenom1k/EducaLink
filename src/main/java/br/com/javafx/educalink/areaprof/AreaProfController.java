@@ -70,9 +70,10 @@ public class AreaProfController {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
                 Stage stage = (Stage) sair.getScene().getWindow();
-                stage.setScene(new Scene(root, 800, 500));
+                stage.setScene(new Scene(root));
                 stage.setTitle("EducaLink - Login");
-                stage.setResizable(false);
+                stage.setMaximized(true);
+                stage.setResizable(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

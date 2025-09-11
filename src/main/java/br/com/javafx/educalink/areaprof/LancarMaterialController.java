@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -18,6 +19,15 @@ import java.util.List;
 
 public class LancarMaterialController {
     Professor professor;
+
+    @FXML
+    private HBox prazoBox;
+
+    @FXML private DatePicker prazoData;
+
+    @FXML private Spinner<Integer> horaSpinner;
+
+    @FXML private Spinner<Integer> minutoSpinner;
 
     @FXML
     private ComboBox<String> tipoCombo;
@@ -39,13 +49,30 @@ public class LancarMaterialController {
 
     @FXML
     public void initialize() {
+        // Configuração do botão sair
         sair.setOnMouseEntered(e -> sair.setStyle(
                 "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
         sair.setOnMouseExited(e -> sair.setStyle(
                 "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
 
         sair.setOnAction(this::clicouSair);
+
+        // Configuração dos Spinners de hora/minuto
+        horaSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
+        minutoSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 5));
+
+        // Listener para exibir/esconder o prazo
+        tipoCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if ("Atividade".equals(newVal)) {
+                prazoBox.setVisible(true);
+                prazoBox.setManaged(true);
+            } else {
+                prazoBox.setVisible(false);
+                prazoBox.setManaged(false);
+            }
+        });
     }
+
 
     public void carregarAlunos(List<Aluno> alunos) {
     }
