@@ -3,11 +3,14 @@ package br.com.javafx.educalink.database;
 import br.com.javafx.educalink.alunos.Aluno;
 import br.com.javafx.educalink.areaprof.AluInscritoController;
 import br.com.javafx.educalink.areaprof.AreaProfController;
+import br.com.javafx.educalink.areaprof.Material;
 import br.com.javafx.educalink.professores.Professor;
 
 import java.util.*;
+import java.io.*;
 
 public class DadosCompartilhados {
+    private List<Material> materiais;
     private AreaProfController areaProfController;
     private AluInscritoController aluInscritoController;
     private static DadosCompartilhados instancia;
@@ -18,6 +21,7 @@ public class DadosCompartilhados {
 
     private DadosCompartilhados() {
         inscricoesJson = InscricaoStorage.carregar();
+        materiais = MaterialStorage.carregar(); // carregar do arquivo usando MaterialStorage
     }
 
     public static DadosCompartilhados getInstancia() {
@@ -66,9 +70,8 @@ public class DadosCompartilhados {
 
         if (!inscricoesJson.get(idProf).contains(aluno.getMatricula())) {
             inscricoesJson.get(idProf).add(aluno.getMatricula());
-            salvar();
+            salvarInscricoes();
 
-            // Atualizar UI se o professor correspondente estiver logado
             AreaProfController controller = getAreaProfController();
             if (controller != null && controller.getProfessor().getId().equals(idProf)) {
                 int total = getTotalAlunos(professor);
@@ -81,15 +84,13 @@ public class DadosCompartilhados {
         String idProf = professor.getId();
         if (inscricoesJson.containsKey(idProf)) {
             inscricoesJson.get(idProf).remove(aluno.getMatricula());
-            salvar();
+            salvarInscricoes();
 
-            // 🔥 Atualizar a UI do professor em tempo real
             AreaProfController controller = getAreaProfController();
             if (controller != null && controller.getProfessor().getId().equals(idProf)) {
                 int total = getTotalAlunos(professor);
                 controller.atualizarQtdAlunos(total);
 
-                // Só tenta recarregar os cards se a tela de alunos inscritos estiver aberta
                 AluInscritoController aluController = controller.getAluInscritoController();
                 if (aluController != null) {
                     aluController.carregarAlunos(getAlunosInscritos(professor));
@@ -122,9 +123,40 @@ public class DadosCompartilhados {
     }
 
     // -------------------------
+    // Materiais
+    // -------------------------
+    public List<Material> getMateriais() {
+        return materiais;
+    }
+
+    public void adicionarMaterial(Material m) {
+        materiais.add(m);
+        MaterialStorage.salvar(materiais); // salva usando MaterialStorage
+    }
+
+    // -------------------------
+    // Professores e alunos
+    // -------------------------
+    public Map<String, Professor> getProfessores() {
+        return professores;
+    }
+
+    public Map<String, Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public Professor getProfessorPorMateria(String nomeMateria) {
+        String matLower = nomeMateria.trim().toLowerCase();
+        return professores.values().stream()
+                .filter(p -> p.getMaterias().stream().anyMatch(m -> m.trim().toLowerCase().equals(matLower)))
+                .findFirst()
+                .orElse(null);
+    }
+
+    // -------------------------
     // Persistência
     // -------------------------
-    private void salvar() {
+    private void salvarInscricoes() {
         InscricaoStorage.salvar(inscricoesJson);
     }
 }

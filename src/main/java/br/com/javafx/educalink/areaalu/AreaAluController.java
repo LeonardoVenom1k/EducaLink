@@ -1,7 +1,10 @@
 package br.com.javafx.educalink.areaalu;
 
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.areaprof.Material;
+import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +15,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
@@ -38,6 +45,9 @@ public class AreaAluController {
     private List<Professor> professores;
 
     @FXML
+    private VBox atividadesBox;
+
+    @FXML
     public void initialize() {
         String estiloLabelPadrao = "-fx-text-fill: #000000; -fx-underline: false; -fx-cursor: hand;";
         String estiloLabelHover = "-fx-text-fill: #6b00b3; -fx-underline: true; -fx-cursor: hand;";
@@ -58,9 +68,15 @@ public class AreaAluController {
         label.setOnMouseExited(e -> label.setStyle(estiloPadrao));
     }
 
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+        carregarAtividades();
+    }
+
     public void receberDadosAluno(Aluno aluno) {
         this.aluno = aluno;
         System.out.println("Recebido aluno: " + aluno.getNome());
+        carregarAtividades();
     }
 
     public void receberDadosProfessor(List<Professor> professores) {
@@ -88,6 +104,68 @@ public class AreaAluController {
             }
         }
     }
+
+    public void carregarAtividades() {
+        atividadesBox.getChildren().clear();
+
+        if (aluno == null) {
+            mostrarAlerta("Nenhum aluno logado.");
+            return;
+        }
+
+        List<Material> materiais = DadosCompartilhados.getInstancia().getMateriais();
+        boolean encontrou = false;
+
+        for (Material m : materiais) {
+            // 🔥 Busca o professor dono da matéria
+            Professor dono = DadosCompartilhados.getInstancia().getProfessorPorMateria(m.getMateria());
+
+            // Mostra só se o aluno estiver inscrito no professor dono
+            if (dono != null && DadosCompartilhados.getInstancia().alunoEstaInscrito(dono, aluno)) {
+                encontrou = true;
+                HBox card = criarCardMaterial(m);
+                atividadesBox.getChildren().add(card);
+            }
+        }
+
+        if (!encontrou) {
+            Label vazio = new Label("Nenhuma atividade disponível para suas inscrições.");
+            vazio.setStyle("-fx-font-size: 16px; -fx-text-fill: #555;");
+            atividadesBox.getChildren().add(vazio);
+        }
+    }
+
+    // 🔥 Método auxiliar para criar o card do material
+    private HBox criarCardMaterial(Material m) {
+        HBox card = new HBox(10);
+        card.setStyle("-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-color: #DDD; "
+                + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;");
+
+        // Ícone
+        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(
+                "/br/com/javafx/educalink/img/areaalu/Pasteicon.png")));
+        icon.setFitHeight(40);
+        icon.setFitWidth(40);
+
+        // Infos
+        VBox info = new VBox(5);
+        Label materiaLbl = new Label("Matéria: " + m.getMateria());
+        materiaLbl.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+
+        Label tipoLbl = new Label("Tipo: " + m.getTipo());
+        Label assuntoLbl = new Label("Assunto: " + m.getAssunto());
+        info.getChildren().addAll(materiaLbl, tipoLbl, assuntoLbl);
+
+        // Se for atividade com prazo
+        if ("Atividade".equalsIgnoreCase(m.getTipo()) && m.getPrazo() != null) {
+            Label prazoLbl = new Label("Prazo: " + m.getPrazo().toString());
+            info.getChildren().add(prazoLbl);
+        }
+
+        card.getChildren().addAll(icon, info);
+        return card;
+    }
+
 
     @FXML
     private void clicouMaterias(MouseEvent event) {

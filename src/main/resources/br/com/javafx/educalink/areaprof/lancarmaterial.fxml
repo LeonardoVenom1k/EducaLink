@@ -16,8 +16,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 <?import javafx.scene.control.Spinner?>
+
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -50,20 +50,28 @@
       <VBox spacing="20" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0"
             AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="90.0">
          <children>
-            <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="CADASTRO DE ATIVIDADE OU MATÉRIA" />
+            <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="CADASTRO DE ATIVIDADE OU MATERIAL" />
 
-            <!-- Linha ComboBox -->
+            <!-- Linha Tipo -->
             <HBox alignment="CENTER_LEFT" spacing="10">
                <children>
-                  <Label style="-fx-font-size:14;" text="Matéria ou Atividade" />
+                  <Label style="-fx-font-size:14;" text="Material ou Atividade" />
                   <ComboBox fx:id="tipoCombo" prefWidth="200.0">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="Matéria" />
+                           <String fx:value="Material" />
                            <String fx:value="Atividade" />
                         </FXCollections>
                      </items>
                   </ComboBox>
+               </children>
+            </HBox>
+
+            <!-- Linha Matéria -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+               <children>
+                  <Label style="-fx-font-size:14;" text="Matéria:" />
+                  <ComboBox fx:id="materiaCombo" prefWidth="200.0" />
                </children>
             </HBox>
 
@@ -83,19 +91,13 @@
             <HBox fx:id="prazoBox" alignment="CENTER_LEFT" spacing="10" visible="false" managed="false">
                <children>
                   <Label style="-fx-font-size:14;" text="Prazo de entrega:" />
-                  <!-- Data -->
                   <DatePicker fx:id="prazoData" />
-
-                  <!-- Hora -->
                   <Label text="Hora:" style="-fx-font-size:14;" />
                   <Spinner fx:id="horaSpinner" prefWidth="70.0" />
-
-                  <!-- Minuto -->
                   <Label text="Min:" style="-fx-font-size:14;" />
                   <Spinner fx:id="minutoSpinner" prefWidth="70.0" />
                </children>
             </HBox>
-
 
             <!-- Área de anexos -->
             <Label style="-fx-font-weight: bold; -fx-font-size: 14;" text="Anexar material de apoio" />

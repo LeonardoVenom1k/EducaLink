@@ -99,7 +99,8 @@ public class AreaProfController {
             Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("EducaLink - Alunos Inscritos");
-            stage.setResizable(false);
+            stage.setMaximized(true);
+            stage.setResizable(true);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,15 +118,16 @@ public class AreaProfController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/lancarmaterial.fxml"));
             Parent root = loader.load();
 
-            // Pega o controller da tela de alunos inscritos
+            // Pega o controller da tela de lançar material
             LancarMaterialController controller = loader.getController();
 
-            // Envia o professor logado para que ele carregue a lista
+            // Passa o professor logado para a tela
+            controller.setProfessor(this.professor);
+
+            // Se precisar carregar os alunos logo ao abrir
             controller.carregarAlunos(DadosCompartilhados.getInstancia().getAlunosInscritos(professor));
 
-            LancarMaterialController lancarmaterial = loader.getController();
-            lancarmaterial.setProfessor(this.professor); // passa o professor loga
-
+            // Troca a cena
             Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("EducaLink - Lançar Material/Atividade");

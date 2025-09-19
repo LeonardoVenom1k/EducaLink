@@ -1,0 +1,15 @@
+[
+  {
+    "tipo": "Atividade",
+    "assunto": "Teste 1",
+    "materia": "Cálculo I",
+    "prazo": "2025-09-19T23:00:00",
+    "professorId": "admin"
+  },
+  {
+    "tipo": "Material",
+    "assunto": "Teste 2",
+    "materia": "Redação",
+    "professorId": "admin2"
+  }
+]
