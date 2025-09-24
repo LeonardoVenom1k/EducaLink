@@ -10,8 +10,9 @@ public class PlayFaitec extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        primaryStage.hide(); // não usa o stage principal
         try {
-            //Tela 1
+            // Tela 1
             FXMLLoader loaderProfessor = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/login/login.fxml"));
             Parent rootProfessor = loaderProfessor.load();
             Scene sceneProfessor = new Scene(rootProfessor);
@@ -19,7 +20,6 @@ public class PlayFaitec extends Application {
             stageProfessor.setTitle("EducaLink - Login");
             stageProfessor.setScene(sceneProfessor);
             stageProfessor.setMaximized(true);
-            stageProfessor.setResizable(true);
             stageProfessor.show();
 
             // Tela 2
@@ -30,12 +30,10 @@ public class PlayFaitec extends Application {
             stageAluno.setTitle("EducaLink - Login");
             stageAluno.setScene(sceneAluno);
             stageAluno.setMaximized(true);
-            stageAluno.setResizable(true);
             stageAluno.show();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    }
+}

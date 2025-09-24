@@ -11,6 +11,7 @@ import java.io.*;
 
 public class DadosCompartilhados {
     private List<Material> materiais;
+    private static List<br.com.javafx.educalink.areaalu.Entrega> entregas = new ArrayList<>();
     private AreaProfController areaProfController;
     private AluInscritoController aluInscritoController;
     private static DadosCompartilhados instancia;
@@ -18,6 +19,7 @@ public class DadosCompartilhados {
     private Map<String, Professor> professores = new HashMap<>();
     private Map<String, Aluno> alunos = new HashMap<>();
     private Map<String, List<String>> inscricoesJson; // ID professor → list<matrículas>
+
 
     private DadosCompartilhados() {
         inscricoesJson = InscricaoStorage.carregar();
@@ -29,6 +31,21 @@ public class DadosCompartilhados {
             instancia = new DadosCompartilhados();
         }
         return instancia;
+    }
+
+    public static void registrarEntrega(br.com.javafx.educalink.areaalu.Entrega entrega) {
+        entregas.add(entrega);
+    }
+
+    public static List<br.com.javafx.educalink.areaalu.Entrega> getEntregas() {
+        return entregas;
+    }
+
+    // para filtrar entregas de uma atividade específica
+    public static List<br.com.javafx.educalink.areaalu.Entrega> getEntregasPorAtividade(Material atividade) {
+        return entregas.stream()
+                .filter(e -> e.getAtividade().equals(atividade))
+                .toList();
     }
 
     // -------------------------

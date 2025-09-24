@@ -122,9 +122,19 @@ public class AreaAluController {
 
             // Mostra só se o aluno estiver inscrito no professor dono
             if (dono != null && DadosCompartilhados.getInstancia().alunoEstaInscrito(dono, aluno)) {
-                encontrou = true;
-                HBox card = criarCardMaterial(m);
-                atividadesBox.getChildren().add(card);
+
+                // 🔥 Verifica se o aluno já entregou esta atividade
+                boolean jaEntregou = DadosCompartilhados.getEntregas().stream()
+                        .anyMatch(e -> e.getAlunoMatricula().equals(aluno.getMatricula())
+                                && e.getAtividade().getAssunto().equals(m.getAssunto())
+                                && "Atividade".equalsIgnoreCase(e.getAtividade().getTipo()));
+
+
+                if (!jaEntregou) {
+                    encontrou = true;
+                    HBox card = criarCardMaterial(m);
+                    atividadesBox.getChildren().add(card);
+                }
             }
         }
 

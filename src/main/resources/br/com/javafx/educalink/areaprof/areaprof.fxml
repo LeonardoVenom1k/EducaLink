@@ -61,7 +61,7 @@
                         <Image url="@../img/areaprof/Document.png" />
                     </image>
                 </ImageView>
-                <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Atividades Pendentes" />
+                <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Atividades Entregues" />
             </VBox>
 
             <!-- Card 3 -->

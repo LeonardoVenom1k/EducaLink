@@ -109,7 +109,29 @@ public class AreaProfController {
 
     @FXML
     private void abrirTelaPendentes(MouseEvent event) {
-        mostrarAlerta("Tela em desenvolvimento...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/ativpendente.fxml"));
+            Parent root = loader.load();
+
+            AtivPendenteController controller = loader.getController();
+
+            // Passa o professor logado para a tela
+            controller.setProfessor(this.professor);
+
+            // Se precisar carregar os alunos logo ao abrir
+            controller.carregarAlunos(DadosCompartilhados.getInstancia().getAlunosInscritos(professor));
+
+            // Troca a cena
+            Stage stage = (Stage) lblTotalAlunos.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("EducaLink - Entregas");
+            stage.setMaximized(true);
+            stage.setResizable(true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro ao abrir a tela de lançamento!");
+        }
     }
 
     @FXML

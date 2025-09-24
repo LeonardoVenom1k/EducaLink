@@ -96,9 +96,10 @@ public class AluInscritoController {
             areaProfController.receberDadosProfessor(this.professor);
 
             Stage stage = (Stage) sair.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 500));
+            stage.setScene(new Scene(root));
             stage.setTitle("EducaLink - Área do Professor");
-            stage.setResizable(false);
+            stage.setMaximized(true);
+            stage.setResizable(true);
 
         } catch (IOException e) {
             e.printStackTrace();
