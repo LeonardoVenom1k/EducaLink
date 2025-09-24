@@ -80,17 +80,34 @@ public class LancarMaterialController {
         List<File> arquivosSelecionados = fileChooser.showOpenMultipleDialog(getStage());
         if (arquivosSelecionados != null) {
             for (File file : arquivosSelecionados) {
-                anexosArea.appendText(file.getAbsolutePath() + "\n");
+                try {
+                    // Pasta onde o sistema vai salvar os anexos
+                    File pastaMateriais = new File("materiais");
+                    if (!pastaMateriais.exists()) {
+                        pastaMateriais.mkdirs();
+                    }
+
+                    // Copiar arquivo para dentro da pasta "materiais"
+                    File destino = new File(pastaMateriais, file.getName());
+                    java.nio.file.Files.copy(file.toPath(), destino.toPath(),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+                    // Mostrar no TextArea (somente o nome do arquivo)
+                    anexosArea.appendText(destino.getAbsolutePath() + "\n");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
+
 
     // Método chamado ao clicar no botão "Cadastrar"
     @FXML
     private void clicouCadastrar() {
         String tipo = tipoCombo.getValue();
         String assunto = assuntoField.getText();
-        String anexos = anexosArea.getText();
         String nomeMateria = materiaCombo.getValue();
 
         if (tipo == null || assunto.isEmpty() || nomeMateria == null) {
@@ -107,22 +124,19 @@ public class LancarMaterialController {
             );
         }
 
-        // Criar material vinculado à matéria selecionada
         Material material = new Material(tipo, assunto, nomeMateria, prazo, professor.getId());
 
-        // Salvar no singleton
-        DadosCompartilhados.getInstancia().adicionarMaterial(material);
+        // Salvar caminho do arquivo
+        String[] anexos = anexosArea.getText().split("\n");
+        if (anexos.length > 0 && !anexos[0].isBlank()) {
+            material.setCaminhoArquivo(anexos[0]); // por enquanto só 1 arquivo
+        }
 
-        System.out.println("Material enviado:");
-        System.out.println("Tipo: " + tipo);
-        System.out.println("Assunto: " + assunto);
-        System.out.println("Matéria: " + nomeMateria);
-        System.out.println("Arquivos anexados: \n" + anexos);
+        DadosCompartilhados.getInstancia().adicionarMaterial(material);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Cadastro realizado com sucesso!", ButtonType.OK);
         alert.showAndWait();
 
-        // Limpar campos
         assuntoField.clear();
         anexosArea.clear();
     }

@@ -163,6 +163,27 @@ public class AreaAluController {
         }
 
         card.getChildren().addAll(icon, info);
+
+        // 🔥 Ao clicar no card, abre a tela de entrega
+        card.setOnMouseClicked(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/materialEntrega.fxml"));
+                Parent root = loader.load();
+
+                MaterialEntregaController controller = loader.getController();
+                controller.setMaterial(m); // passa o material selecionado
+                controller.setAluno(this.aluno); // passa o aluno logado também (se precisar)
+                controller.receberDadosAluno(this.aluno);
+                controller.receberDadosProfessor(this.professores);
+
+                Stage stage = (Stage) sair.getScene().getWindow();
+                trocaCena(stage, root, "Material/Atividade - " + m.getMateria());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         return card;
     }
 

@@ -2,6 +2,7 @@ module br.com.javafx.educalink {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires java.desktop;
 
     opens br.com.javafx.educalink to javafx.fxml;
     opens br.com.javafx.educalink.login to javafx.fxml;

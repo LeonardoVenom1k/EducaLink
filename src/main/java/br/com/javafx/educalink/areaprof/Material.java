@@ -7,7 +7,8 @@ public class Material {
     private String assunto;
     private String materia;
     private LocalDateTime prazo;
-    private String professorId; // identificador do professor que lançou
+    private String professorId; //// identificador do professor que lançou
+    private String caminhoArquivo;
 
     // Construtor completo (5 parâmetros)
     public Material(String tipo, String assunto, String materia, LocalDateTime prazo, String professorId) {
@@ -21,6 +22,14 @@ public class Material {
     // Construtor alternativo (sem professorId)
     public Material(String tipo, String assunto, String materia, LocalDateTime prazo) {
         this(tipo, assunto, materia, prazo, null); // professorId fica null
+    }
+
+    public String getCaminhoArquivo() {
+        return caminhoArquivo;
+    }
+
+    public void setCaminhoArquivo(String caminhoArquivo) {
+        this.caminhoArquivo = caminhoArquivo;
     }
 
     public String getTipo() {

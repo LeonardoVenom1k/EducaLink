@@ -71,7 +71,7 @@
             </content>
         </ScrollPane>
 
-        <Region maxWidth="Infinity" prefHeight="10"
+        <Region maxWidth="1.7976931348623157E308" prefHeight="10"
                 style="-fx-background-color: #000000; -fx-background-radius: 30;" />
 
         <!-- Parte 2 -->
@@ -89,7 +89,7 @@
             </content>
         </ScrollPane>
 
-        <Region maxWidth="Infinity" prefHeight="10"
+        <Region maxWidth="1.7976931348623157E308" prefHeight="10"
                 style="-fx-background-color: #000000; -fx-background-radius: 30;" />
 
     </VBox>
