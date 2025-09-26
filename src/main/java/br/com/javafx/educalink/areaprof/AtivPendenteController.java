@@ -36,6 +36,8 @@ public class AtivPendenteController {
 
     public void carregarAlunos(List<Aluno> alunos) {}
 
+    private List<Entrega> entregasFiltradas = new ArrayList<>();
+
     private void iniciarTela() {
         carregarAtividadesDoSistema();
     }
@@ -43,16 +45,18 @@ public class AtivPendenteController {
     private void carregarAtividadesDoSistema() {
         if (professor == null) return;
 
-        List<AtividadeDTO> lista = new ArrayList<>();
+        entregasFiltradas.clear();
 
-        // pega todas as entregas do sistema
         List<Entrega> entregas = DadosCompartilhados.getEntregas();
 
-        // filtra apenas entregas de atividades do professor
+        List<AtividadeDTO> lista = new ArrayList<>();
+
         for (Entrega e : entregas) {
             if (e.getAtividade() != null &&
                     e.getAtividade().getProfessorId().equals(professor.getId()) &&
                     "Atividade".equalsIgnoreCase(e.getAtividade().getTipo())) {
+
+                entregasFiltradas.add(e); // Guardando referência
 
                 lista.add(new AtividadeDTO(
                         e.getAtividade().getAssunto(),
@@ -92,24 +96,30 @@ public class AtivPendenteController {
             Label dataEntrega = new Label("Entregue em: " + sdf.format(ativ.getTimestamp()));
             dataEntrega.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
-            Button abrir = new Button("Abrir");
-            abrir.setOnAction(e -> {
-                File f = new File(ativ.getCaminhoArquivo());
-                if (f.exists()) {
-                    try {
-                        java.awt.Desktop.getDesktop().open(f);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                        Alert a = new Alert(Alert.AlertType.ERROR, "Não foi possível abrir o arquivo.", ButtonType.OK);
-                        a.showAndWait();
-                    }
-                } else {
-                    Alert a = new Alert(Alert.AlertType.WARNING, "Arquivo não encontrado.", ButtonType.OK);
+            // Botão Corrigir
+            Button corrigir = new Button("Corrigir");
+            corrigir.setOnAction(e -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/corrigirAt.fxml"));
+                    Parent root = loader.load();
+
+                    CorrigirAtController controller = loader.getController();
+                    controller.setDados(entregasFiltradas.get(atividades.indexOf(ativ)), professor);
+
+                    Stage stage = (Stage) atividadesBox.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("EducaLink - Corrigir Atividade");
+                    stage.setMaximized(true);
+                    stage.setResizable(true);
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao abrir tela de correção: " + ex.getMessage(), ButtonType.OK);
                     a.showAndWait();
                 }
             });
 
-            infos.getChildren().addAll(titulo, aluno, dataEntrega, abrir);
+            infos.getChildren().addAll(titulo, aluno, dataEntrega, corrigir);
             card.getChildren().add(infos);
             atividadesBox.getChildren().add(card);
         }

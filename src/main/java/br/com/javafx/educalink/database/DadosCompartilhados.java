@@ -4,6 +4,7 @@ import br.com.javafx.educalink.alunos.Aluno;
 import br.com.javafx.educalink.areaprof.AluInscritoController;
 import br.com.javafx.educalink.areaprof.AreaProfController;
 import br.com.javafx.educalink.areaprof.Material;
+import br.com.javafx.educalink.areaalu.Entrega;
 import br.com.javafx.educalink.professores.Professor;
 
 import java.util.*;
@@ -11,7 +12,7 @@ import java.io.*;
 
 public class DadosCompartilhados {
     private List<Material> materiais;
-    private static List<br.com.javafx.educalink.areaalu.Entrega> entregas = new ArrayList<>();
+    private static List<Entrega> entregas; // agora carrega/salva via JSON
     private AreaProfController areaProfController;
     private AluInscritoController aluInscritoController;
     private static DadosCompartilhados instancia;
@@ -20,10 +21,10 @@ public class DadosCompartilhados {
     private Map<String, Aluno> alunos = new HashMap<>();
     private Map<String, List<String>> inscricoesJson; // ID professor → list<matrículas>
 
-
     private DadosCompartilhados() {
         inscricoesJson = InscricaoStorage.carregar();
-        materiais = MaterialStorage.carregar(); // carregar do arquivo usando MaterialStorage
+        materiais = MaterialStorage.carregar();
+        entregas = EntregaStorage.carregar();
     }
 
     public static DadosCompartilhados getInstancia() {
@@ -33,16 +34,19 @@ public class DadosCompartilhados {
         return instancia;
     }
 
-    public static void registrarEntrega(br.com.javafx.educalink.areaalu.Entrega entrega) {
+    // -------------------------
+    // Entregas
+    // -------------------------
+    public static void registrarEntrega(Entrega entrega) {
         entregas.add(entrega);
+        EntregaStorage.salvar(entregas); // salva automaticamente
     }
 
-    public static List<br.com.javafx.educalink.areaalu.Entrega> getEntregas() {
+    public static List<Entrega> getEntregas() {
         return entregas;
     }
 
-    // para filtrar entregas de uma atividade específica
-    public static List<br.com.javafx.educalink.areaalu.Entrega> getEntregasPorAtividade(Material atividade) {
+    public static List<Entrega> getEntregasPorAtividade(Material atividade) {
         return entregas.stream()
                 .filter(e -> e.getAtividade().equals(atividade))
                 .toList();
@@ -91,8 +95,7 @@ public class DadosCompartilhados {
 
             AreaProfController controller = getAreaProfController();
             if (controller != null && controller.getProfessor().getId().equals(idProf)) {
-                int total = getTotalAlunos(professor);
-                controller.atualizarQtdAlunos(total);
+                controller.atualizarQtdAlunos(getTotalAlunos(professor));
             }
         }
     }
@@ -105,8 +108,7 @@ public class DadosCompartilhados {
 
             AreaProfController controller = getAreaProfController();
             if (controller != null && controller.getProfessor().getId().equals(idProf)) {
-                int total = getTotalAlunos(professor);
-                controller.atualizarQtdAlunos(total);
+                controller.atualizarQtdAlunos(getTotalAlunos(professor));
 
                 AluInscritoController aluController = controller.getAluInscritoController();
                 if (aluController != null) {
@@ -148,7 +150,7 @@ public class DadosCompartilhados {
 
     public void adicionarMaterial(Material m) {
         materiais.add(m);
-        MaterialStorage.salvar(materiais); // salva usando MaterialStorage
+        MaterialStorage.salvar(materiais); // salva automaticamente
     }
 
     // -------------------------

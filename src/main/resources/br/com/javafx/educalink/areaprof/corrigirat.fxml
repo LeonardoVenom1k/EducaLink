@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaprof.CorrigirAtController">
+
+    <!-- Cabeçalho -->
+    <HBox prefHeight="68" spacing="20" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <padding>
+            <Insets bottom="15" left="15" right="15" top="15" />
+        </padding>
+
+        <ImageView fitHeight="46" preserveRatio="true">
+            <image>
+                <Image url="@../img/areaprof/Logoeduca.png" />
+            </image>
+        </ImageView>
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="PAINEL DO PROFESSOR" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39" prefWidth="100" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18;" text="VOLTAR" />
+    </HBox>
+
+    <!-- Conteúdo principal -->
+    <VBox spacing="20" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="68">
+        <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+        </padding>
+
+        <!-- Informações -->
+        <GridPane hgap="20.0" prefHeight="65.0" prefWidth="1072.0" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100" percentWidth="20" />
+                <ColumnConstraints halignment="LEFT" minWidth="300" percentWidth="80" />
+            </columnConstraints>
+
+            <children>
+                <Label style="-fx-font-weight: bold;" text="Aluno:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <font><Font size="14" /></font>
+                </Label>
+                <TextField fx:id="txtAluno" editable="false" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="1113.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+
+                <Label style="-fx-font-weight: bold;" text="Atividade:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <font><Font size="14" /></font>
+                </Label>
+                <TextField fx:id="txtAtividade" editable="false" maxWidth="1.7976931348623157E308" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            </children>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+         <padding>
+            <Insets left="-50.0" right="450.0" />
+         </padding>
+         <VBox.margin>
+            <Insets left="-50.0" />
+         </VBox.margin>
+        </GridPane>
+
+        <!-- Arquivos -->
+        <HBox fillHeight="true" spacing="40">
+            <!-- Arquivos do aluno -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold;" text="Arquivos do aluno:">
+                    <font><Font size="14" /></font>
+                </Label>
+                <ListView fx:id="listaAluno" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <!-- Arquivos corrigidos -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold;" text="Arquivos Corrigidos (Professor):">
+                    <font><Font size="14" /></font>
+                </Label>
+                <VBox fx:id="listaCorrigidos" spacing="5" style="-fx-background-color:#f9f9f9; -fx-border-color:#ddd; -fx-padding:10;" VBox.vgrow="ALWAYS" />
+
+                <Button fx:id="btnAnexar" prefHeight="30" prefWidth="140" style="-fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-background-radius: 15;" text="Anexar arquivos">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            </VBox>
+        </HBox>
+
+        <!-- Comentários -->
+        <VBox spacing="10" VBox.vgrow="ALWAYS">
+            <Label style="-fx-font-weight: bold;" text="Comentários da correção:">
+                <font><Font size="14" /></font>
+            </Label>
+            <TextArea fx:id="txtComentario" VBox.vgrow="ALWAYS">
+            <font>
+               <Font size="14.0" />
+            </font></TextArea>
+        </VBox>
+
+    <!-- Botões -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button fx:id="btnEnviar" prefHeight="30" prefWidth="100" style="-fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-background-radius: 15;" text="Enviar">
+            <font>
+               <Font size="14.0" />
+            </font></Button>
+    </HBox>
+</VBox>
+</AnchorPane>

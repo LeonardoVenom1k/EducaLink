@@ -13,6 +13,9 @@ public class Entrega {
     private String arquivoPath; // caminho do arquivo anexado (se tiver)
     private LocalDateTime dataEntrega;
 
+    public Entrega() {
+    }
+
     public Entrega(String alunoMatricula, String alunoNome, Material atividade,
                    String respostaTexto, String arquivoPath, LocalDateTime dataEntrega) {
         this.alunoMatricula = alunoMatricula;

@@ -19,6 +19,9 @@ public class Material {
         this.professorId = professorId;
     }
 
+    public Material() {
+    }
+
     // Construtor alternativo (sem professorId)
     public Material(String tipo, String assunto, String materia, LocalDateTime prazo) {
         this(tipo, assunto, materia, prazo, null); // professorId fica null
