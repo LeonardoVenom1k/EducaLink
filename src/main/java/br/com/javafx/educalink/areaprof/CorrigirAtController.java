@@ -21,41 +21,29 @@ import java.util.List;
 
 public class CorrigirAtController {
 
-    @FXML
-    private Button btnAnexar;
+    @FXML private Button btnAnexar;
+    @FXML private Button btnEnviar;
+    @FXML private Button sair;
 
-    @FXML
-    private Button btnEnviar;
-
-    @FXML
-    private ListView<HBox> listaAluno;
-
-    @FXML
-    private VBox listaCorrigidos;
-
-    @FXML
-    private Button sair;
-
-    @FXML
-    private TextField txtAluno;
-
-    @FXML
-    private TextField txtAtividade;
-
-    @FXML
-    private TextArea txtComentario;
+    @FXML private ListView<HBox> listaAluno;
+    @FXML private VBox listaCorrigidos;
+    @FXML private TextField txtAluno;
+    @FXML private TextField txtAtividade;
+    @FXML private TextArea txtComentario;
 
     private Professor professor;
     private File arquivoCorrecao;
-
-    private List<Entrega> entregas; // Lista carregada do armazenamento
+    private List<Entrega> entregas;
 
     @FXML
     public void initialize() {
+        aplicarEfeitoBotao(sair, "#820AD1", "#6b00b3", 20, 18, 100);
+        aplicarEfeitoBotao(btnAnexar, "#820AD1", "#6b00b3", 20, 18, 200);
+        aplicarEfeitoBotao(btnEnviar, "#820AD1", "#6b00b3", 20, 18, 100);
+
         carregueEntregas();
     }
 
-    // Carrega todas as entregas salvas
     private void carregueEntregas() {
         entregas = EntregaStorage.carregar();
 
@@ -65,7 +53,6 @@ public class CorrigirAtController {
             return;
         }
 
-        // Só pega a primeira entrega como exemplo
         setDados(entregas.get(0), professor);
     }
 
@@ -82,6 +69,7 @@ public class CorrigirAtController {
             File arquivoEntrega = new File(entrega.getArquivoPath());
             if (arquivoEntrega.exists()) {
                 Button abrirBtn = new Button("Abrir");
+                aplicarEfeitoBotao(abrirBtn, "#2196F3", "#1976D2", 15, 14, 80);
                 abrirBtn.setOnAction(ev -> abrirArquivo(arquivoEntrega));
 
                 HBox linha = new HBox(10, new Label(arquivoEntrega.getName()), abrirBtn);
@@ -117,8 +105,6 @@ public class CorrigirAtController {
             alerta.showAndWait();
             return;
         }
-
-        // TODO: registrar a correção no EntregaStorage
 
         Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Correção enviada com sucesso!", ButtonType.OK);
         alerta.showAndWait();
@@ -160,5 +146,25 @@ public class CorrigirAtController {
             Alert alerta = new Alert(Alert.AlertType.ERROR, "Não foi possível abrir o arquivo.", ButtonType.OK);
             alerta.showAndWait();
         }
+    }
+
+    /**
+     * Método para adicionar efeito hover a um botão.
+     */
+    private void aplicarEfeitoBotao(Button botao, String corNormal, String corHover, int raioBorda, int tamanhoFonte, int larguraPref) {
+        botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        ));
+
+        botao.setOnMouseEntered(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corHover, raioBorda, tamanhoFonte, larguraPref
+        )));
+
+        botao.setOnMouseExited(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        )));
     }
 }

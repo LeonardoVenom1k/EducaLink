@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
@@ -17,8 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaalu.MaterialEntregaController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaalu.MaterialEntregaController">
    <children>
    
        <!-- Topo -->
@@ -80,11 +75,11 @@
               </HBox>
       
               <!-- Pane da Atividade (mostrado só se for Atividade) -->
-              <VBox fx:id="atividadePane" managed="false" spacing="15" visible="false">
+              <VBox fx:id="atividadePane" managed="true" spacing="15" visible="true">
          <children>
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Anexar Atividade" />
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Comentar/Anexar Arquivo" />
                      <TextArea fx:id="atividadeArea" prefHeight="264.0" prefWidth="1200.0" />
-                     <HBox spacing="15">
+                     <HBox prefHeight="39.0" prefWidth="1211.0" spacing="15">
                         <children>
                             <Button fx:id="anexarBtn" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Anexar arquivos">
                            <font>

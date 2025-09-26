@@ -38,12 +38,10 @@ public class LancarMaterialController {
 
     @FXML
     public void initialize() {
-        // Configuração botão sair
-        sair.setOnMouseEntered(e -> sair.setStyle(
-                "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
-        sair.setOnMouseExited(e -> sair.setStyle(
-                "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
-        sair.setOnAction(this::clicouSair);
+        // Configura efeitos de hover nos botões
+        aplicarEfeitoBotao(sair, "#820AD1", "#6b00b3", 20, 18, 100);
+        aplicarEfeitoBotao(anexarBtn, "#820AD1", "#6b00b3", 20, 18, 200);
+        aplicarEfeitoBotao(cadastrarBtn, "#820AD1", "#6b00b3", 20, 18, 100);
 
         // Configuração dos Spinners de hora/minuto
         horaSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
@@ -59,7 +57,6 @@ public class LancarMaterialController {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
-        // Popular ComboBox de matérias do professor
         if (!professor.getMaterias().isEmpty()) {
             materiaCombo.getItems().setAll(professor.getMaterias());
             materiaCombo.setValue(professor.getMaterias().get(0));
@@ -71,7 +68,6 @@ public class LancarMaterialController {
         }
     }
 
-    // Método chamado ao clicar no botão "Anexar arquivos"
     @FXML
     private void clicouAnexar() {
         FileChooser fileChooser = new FileChooser();
@@ -81,18 +77,13 @@ public class LancarMaterialController {
         if (arquivosSelecionados != null) {
             for (File file : arquivosSelecionados) {
                 try {
-                    // Pasta onde o sistema vai salvar os anexos
                     File pastaMateriais = new File("materiais");
-                    if (!pastaMateriais.exists()) {
-                        pastaMateriais.mkdirs();
-                    }
+                    if (!pastaMateriais.exists()) pastaMateriais.mkdirs();
 
-                    // Copiar arquivo para dentro da pasta "materiais"
                     File destino = new File(pastaMateriais, file.getName());
                     java.nio.file.Files.copy(file.toPath(), destino.toPath(),
                             java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
-                    // Mostrar no TextArea (somente o nome do arquivo)
                     anexosArea.appendText(destino.getAbsolutePath() + "\n");
 
                 } catch (Exception e) {
@@ -102,8 +93,6 @@ public class LancarMaterialController {
         }
     }
 
-
-    // Método chamado ao clicar no botão "Cadastrar"
     @FXML
     private void clicouCadastrar() {
         String tipo = tipoCombo.getValue();
@@ -126,15 +115,14 @@ public class LancarMaterialController {
 
         Material material = new Material(tipo, assunto, nomeMateria, prazo, professor.getId());
 
-        // Salvar caminho do arquivo
         String[] anexos = anexosArea.getText().split("\n");
         if (anexos.length > 0 && !anexos[0].isBlank()) {
-            material.setCaminhoArquivo(anexos[0]); // por enquanto só 1 arquivo
+            material.setCaminhoArquivo(anexos[0]);
         }
 
         DadosCompartilhados.getInstancia().adicionarMaterial(material);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Cadastro realizado com sucesso!", ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Enviado com sucesso!", ButtonType.OK);
         alert.showAndWait();
 
         assuntoField.clear();
@@ -142,8 +130,6 @@ public class LancarMaterialController {
     }
 
     public void carregarAlunos(List<Aluno> alunos) {
-        // Aqui você pode popular uma lista de checkboxes, TableView ou outra UI se quiser.
-        // Por enquanto, apenas registra no console
         System.out.println("Lista de alunos recebida: " + alunos.size());
     }
 
@@ -169,5 +155,25 @@ public class LancarMaterialController {
 
     private Stage getStage() {
         return (Stage) sair.getScene().getWindow();
+    }
+
+    /**
+     * Método para adicionar efeito hover a um botão.
+     */
+    private void aplicarEfeitoBotao(Button botao, String corNormal, String corHover, int raioBorda, int tamanhoFonte, int larguraPref) {
+        botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        ));
+
+        botao.setOnMouseEntered(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corHover, raioBorda, tamanhoFonte, larguraPref
+        )));
+
+        botao.setOnMouseExited(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        )));
     }
 }

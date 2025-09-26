@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class MaterialEntregaController {
@@ -31,13 +30,10 @@ public class MaterialEntregaController {
     @FXML private Button voltar;
 
     private List<Professor> professores;
-    private Material material; // referência do material/atividade exibido
+    private Material material;
 
-
-    private File arquivoAnexado;        // arquivo selecionado pelo aluno para enviar
-    private Aluno aluno;                // aluno logado
-    private String materialId;          // opcional: id do material/atividade
-    private String materialTipo;        // opcional: "Atividade" ou "Material"
+    private File arquivoAnexado;
+    private Aluno aluno;
 
     public void receberDadosAluno(Aluno aluno) {
         this.aluno = aluno;
@@ -49,31 +45,22 @@ public class MaterialEntregaController {
 
     @FXML
     public void initialize() {
-        // Inicialmente esconde o link de material (será mostrado em setMaterial caso exista arquivo)
         materialLink.setVisible(false);
 
-        // configura botões caso FXML não tenha onAction
         anexarBtn.setOnAction(e -> anexarArquivo());
         enviarBtn.setOnAction(e -> enviarAtividade());
         materialLink.setOnAction(e -> abrirArquivoMaterial());
 
-        // estilo do botão Voltar
-        voltar.setOnMouseEntered(e -> voltar.setStyle(
-                "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
-        voltar.setOnMouseExited(e -> voltar.setStyle(
-                "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
+        // Aplicar efeitos aos botões
+        aplicarEfeitoBotao(voltar, "#820AD1", "#6b00b3", 20, 18, 100);
+        aplicarEfeitoBotao(anexarBtn, "#820AD1", "#6b00b3", 20, 18, 200);
+        aplicarEfeitoBotao(enviarBtn, "#820AD1", "#6b00b3", 20, 18, 100);
     }
 
-    /**
-     * Popula a tela com os dados do material/atividade.
-     */
     public void setMaterial(Material material) {
         if (material == null) return;
 
-        this.material = material; // salva referência real para usar na entrega
-
-        this.materialTipo = material.getTipo();
-        this.materialId = material.getAssunto() + "_" + LocalDateTime.now();
+        this.material = material;
 
         disciplinaLabel.setText(material.getMateria());
         assuntoLabel.setText(material.getAssunto());
@@ -92,13 +79,6 @@ public class MaterialEntregaController {
         }
     }
 
-
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
-    }
-
-    // ---------- Ações dos botões ----------
-
     private void anexarArquivo() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Anexar arquivo da atividade");
@@ -116,56 +96,69 @@ public class MaterialEntregaController {
             return;
         }
 
-        try {
-            File pastaBase = new File("entregas");
-            if (!pastaBase.exists()) pastaBase.mkdirs();
+        // ALERTA DE CONFIRMAÇÃO
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle("Confirmação de envio");
+        confirmacao.setHeaderText("Revise sua atividade antes de enviar!");
+        confirmacao.setContentText("Ao enviar, você não terá mais acesso a essa atividade até que o professor devolva a correção.\nDeseja prosseguir?");
+        ButtonType btnSim = new ButtonType("Sim", ButtonBar.ButtonData.YES);
+        ButtonType btnNao = new ButtonType("Não", ButtonBar.ButtonData.NO);
+        confirmacao.getButtonTypes().setAll(btnSim, btnNao);
 
-            String sub = aluno != null ? aluno.getMatricula() : "anonimo";
-            File pastaAluno = new File(pastaBase, sub);
-            if (!pastaAluno.exists()) pastaAluno.mkdirs();
+        confirmacao.showAndWait().ifPresent(resposta -> {
+            if (resposta == btnSim) {
+                try {
+                    File pastaBase = new File("entregas");
+                    if (!pastaBase.exists()) pastaBase.mkdirs();
 
-            // copia arquivo anexado
-            if (arquivoAnexado != null && arquivoAnexado.exists()) {
-                File destino = new File(pastaAluno, arquivoAnexado.getName());
-                java.nio.file.Files.copy(arquivoAnexado.toPath(), destino.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-            }
+                    String sub = aluno != null ? aluno.getMatricula() : "anonimo";
+                    File pastaAluno = new File(pastaBase, sub);
+                    if (!pastaAluno.exists()) pastaAluno.mkdirs();
 
-            // salva texto da atividade
-            String texto = atividadeArea.getText();
-            if (texto != null && !texto.isBlank()) {
-                String nomeEntrega = "entrega_" + System.currentTimeMillis() + ".txt";
-                File arquivoTexto = new File(pastaAluno, nomeEntrega);
-                try (FileWriter fw = new FileWriter(arquivoTexto, false)) {
-                    fw.write("Aluno: " + (aluno != null ? aluno.getNome() + " (" + aluno.getMatricula() + ")" : "Desconhecido") + "\n");
-                    fw.write("Material: " + assuntoLabel.getText() + "\n");
-                    fw.write("Data envio: " + java.time.LocalDateTime.now() + "\n\n");
-                    fw.write(texto);
+                    if (arquivoAnexado != null && arquivoAnexado.exists()) {
+                        File destino = new File(pastaAluno, arquivoAnexado.getName());
+                        Files.copy(arquivoAnexado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+
+                    String texto = atividadeArea.getText();
+                    if (texto != null && !texto.isBlank()) {
+                        String nomeEntrega = "entrega_" + System.currentTimeMillis() + ".txt";
+                        File arquivoTexto = new File(pastaAluno, nomeEntrega);
+                        try (FileWriter fw = new FileWriter(arquivoTexto, false)) {
+                            fw.write("Aluno: " + (aluno != null ? aluno.getNome() + " (" + aluno.getMatricula() + ")" : "Desconhecido") + "\n");
+                            fw.write("Material: " + assuntoLabel.getText() + "\n");
+                            fw.write("Data envio: " + java.time.LocalDateTime.now() + "\n\n");
+                            fw.write(texto);
+                        }
+                    }
+
+                    br.com.javafx.educalink.areaalu.Entrega entrega = new br.com.javafx.educalink.areaalu.Entrega(
+                            aluno.getMatricula(),
+                            aluno.getNome(),
+                            this.material,
+                            atividadeArea.getText(),
+                            arquivoAnexado != null ? arquivoAnexado.getAbsolutePath() : null,
+                            java.time.LocalDateTime.now()
+                    );
+
+                    DadosCompartilhados.registrarEntrega(entrega);
+
+                    Alert sucesso = new Alert(Alert.AlertType.INFORMATION, "Atividade enviada com sucesso!", ButtonType.OK);
+                    sucesso.showAndWait();
+
+                    atividadeArea.clear();
+                    arquivoAnexado = null;
+
+                    // VOLTAR AUTOMATICAMENTE
+                    voltarTelaAnterior();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    Alert err = new Alert(Alert.AlertType.ERROR, "Erro ao enviar a atividade: " + ex.getMessage(), ButtonType.OK);
+                    err.showAndWait();
                 }
             }
-
-            br.com.javafx.educalink.areaalu.Entrega entrega = new br.com.javafx.educalink.areaalu.Entrega(
-                    aluno.getMatricula(),
-                    aluno.getNome(),
-                    this.material, // usa o material real
-                    atividadeArea.getText(),
-                    arquivoAnexado != null ? arquivoAnexado.getAbsolutePath() : null,
-                    java.time.LocalDateTime.now()
-            );
-
-            DadosCompartilhados.registrarEntrega(entrega);
-
-            Alert sucesso = new Alert(Alert.AlertType.INFORMATION, "Atividade enviada com sucesso!", ButtonType.OK);
-            sucesso.showAndWait();
-
-            // limpa campos
-            atividadeArea.clear();
-            arquivoAnexado = null;
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Alert err = new Alert(Alert.AlertType.ERROR, "Erro ao enviar a atividade: " + ex.getMessage(), ButtonType.OK);
-            err.showAndWait();
-        }
+        });
     }
 
     private void abrirArquivoMaterial() {
@@ -187,14 +180,9 @@ public class MaterialEntregaController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
             Parent root = loader.load();
 
-            // pega controller e passa os dados
             AreaAluController controller = loader.getController();
-            if (this.aluno != null) {
-                controller.receberDadosAluno(this.aluno);
-            }
-            if (this.professores != null) {
-                controller.receberDadosProfessor(this.professores);
-            }
+            if (this.aluno != null) controller.receberDadosAluno(this.aluno);
+            if (this.professores != null) controller.receberDadosProfessor(this.professores);
 
             Stage stage = (Stage) voltar.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -207,5 +195,47 @@ public class MaterialEntregaController {
             Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao voltar: " + e.getMessage(), ButtonType.OK);
             a.showAndWait();
         }
+    }
+
+    private void voltarTelaAnterior() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/areaalu.fxml"));
+            Parent root = loader.load();
+
+            AreaAluController controller = loader.getController();
+            if (this.aluno != null) controller.receberDadosAluno(this.aluno);
+            if (this.professores != null) controller.receberDadosProfessor(this.professores);
+
+            Stage stage = (Stage) voltar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("EducaLink - Área do Aluno");
+            stage.setMaximized(true);
+            stage.setResizable(true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao voltar: " + e.getMessage(), ButtonType.OK);
+            a.showAndWait();
+        }
+    }
+
+    private void aplicarEfeitoBotao(Button botao, String corNormal, String corHover, int raioBorda, int tamanhoFonte, int larguraPref) {
+        botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        ));
+
+        botao.setOnMouseEntered(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corHover, raioBorda, tamanhoFonte, larguraPref
+        )));
+
+        botao.setOnMouseExited(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        )));
+    }
+
+    public void setAluno(Aluno aluno) {
     }
 }

@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,22 +20,19 @@ import java.util.List;
 
 public class AtivPendenteController {
 
-    @FXML
-    private VBox atividadesBox;
-
-    @FXML
-    private Button sair;
+    @FXML private VBox atividadesBox;
+    @FXML private Button sair;
 
     private Professor professor;
+    private List<Entrega> entregasFiltradas = new ArrayList<>();
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+        aplicarEfeitoBotao(sair, "#820AD1", "#6b00b3", 20, 18, 100);
         iniciarTela();
     }
 
     public void carregarAlunos(List<Aluno> alunos) {}
-
-    private List<Entrega> entregasFiltradas = new ArrayList<>();
 
     private void iniciarTela() {
         carregarAtividadesDoSistema();
@@ -46,9 +42,7 @@ public class AtivPendenteController {
         if (professor == null) return;
 
         entregasFiltradas.clear();
-
         List<Entrega> entregas = DadosCompartilhados.getEntregas();
-
         List<AtividadeDTO> lista = new ArrayList<>();
 
         for (Entrega e : entregas) {
@@ -56,7 +50,7 @@ public class AtivPendenteController {
                     e.getAtividade().getProfessorId().equals(professor.getId()) &&
                     "Atividade".equalsIgnoreCase(e.getAtividade().getTipo())) {
 
-                entregasFiltradas.add(e); // Guardando referência
+                entregasFiltradas.add(e);
 
                 lista.add(new AtividadeDTO(
                         e.getAtividade().getAssunto(),
@@ -92,12 +86,13 @@ public class AtivPendenteController {
             titulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
             Label aluno = new Label("Aluno: " + ativ.getAlunoNome());
             aluno.setStyle("-fx-font-size: 14px;");
-
             Label dataEntrega = new Label("Entregue em: " + sdf.format(ativ.getTimestamp()));
             dataEntrega.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
             // Botão Corrigir
             Button corrigir = new Button("Corrigir");
+            aplicarEfeitoBotao(corrigir, "#8A2BE2", "#6a1cb0", 15, 14, 100);
+
             corrigir.setOnAction(e -> {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/corrigirAt.fxml"));
@@ -145,6 +140,23 @@ public class AtivPendenteController {
             Alert a = new Alert(Alert.AlertType.ERROR, "Erro ao voltar: " + e.getMessage(), ButtonType.OK);
             a.showAndWait();
         }
+    }
+
+    private void aplicarEfeitoBotao(Button botao, String corNormal, String corHover, int raioBorda, int tamanhoFonte, int larguraPref) {
+        botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        ));
+
+        botao.setOnMouseEntered(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corHover, raioBorda, tamanhoFonte, larguraPref
+        )));
+
+        botao.setOnMouseExited(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        )));
     }
 
     public static class AtividadeDTO {
