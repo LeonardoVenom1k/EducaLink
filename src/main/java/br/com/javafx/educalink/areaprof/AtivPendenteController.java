@@ -9,8 +9,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -78,9 +84,26 @@ public class AtivPendenteController {
 
         for (AtividadeDTO ativ : atividades) {
             HBox card = new HBox(20);
-            card.setStyle("-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #ddd; -fx-border-radius: 10;");
+
+            String estiloNormal = "-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-border-color: #DDD; "
+                    + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;";
+            String estiloHover = "-fx-background-color: #f0f0f0; -fx-padding: 15; -fx-border-color: #6b00b3; "
+                    + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand; "
+                    + "-fx-effect: dropshadow(three-pass-box, rgba(107,0,179,0.4), 10, 0, 0, 0);";
+
+            card.setStyle(estiloNormal);
             card.setPrefHeight(80);
 
+            // Ícone
+            VBox iconeBox = new VBox();
+            iconeBox.setStyle("-fx-alignment: center;");
+            ImageView icone = new ImageView(new Image(getClass().getResourceAsStream(
+                    "/br/com/javafx/educalink/img/areaalu/Pasteicon.png")));
+            icone.setFitHeight(40);
+            icone.setFitWidth(40);
+            iconeBox.getChildren().add(icone);
+
+            // Infos
             VBox infos = new VBox(5);
             Label titulo = new Label("Assunto: " + ativ.getAssunto());
             titulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -88,12 +111,16 @@ public class AtivPendenteController {
             aluno.setStyle("-fx-font-size: 14px;");
             Label dataEntrega = new Label("Entregue em: " + sdf.format(ativ.getTimestamp()));
             dataEntrega.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
+            infos.getChildren().addAll(titulo, aluno, dataEntrega);
 
-            // Botão Corrigir
-            Button corrigir = new Button("Corrigir");
-            aplicarEfeitoBotao(corrigir, "#8A2BE2", "#6a1cb0", 15, 14, 100);
+            card.getChildren().addAll(iconeBox, infos);
 
-            corrigir.setOnAction(e -> {
+            // ─── EFEITO HOVER ───────────────────────────────────────
+            card.setOnMouseEntered(e -> card.setStyle(estiloHover));
+            card.setOnMouseExited(e -> card.setStyle(estiloNormal));
+
+            // ─── CLIQUE EM QUALQUER PARTE DO CARD ───────────────
+            card.setOnMouseClicked(e -> {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/corrigirAt.fxml"));
                     Parent root = loader.load();
@@ -114,8 +141,6 @@ public class AtivPendenteController {
                 }
             });
 
-            infos.getChildren().addAll(titulo, aluno, dataEntrega, corrigir);
-            card.getChildren().add(infos);
             atividadesBox.getChildren().add(card);
         }
     }

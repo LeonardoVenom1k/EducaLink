@@ -166,7 +166,7 @@ public class AreaAluController {
         Label assuntoLbl = new Label("Assunto: " + m.getAssunto());
         info.getChildren().addAll(materiaLbl, tipoLbl, assuntoLbl);
 
-        // Se for atividade com prazo
+        // Prazo se atividade
         if ("Atividade".equalsIgnoreCase(m.getTipo()) && m.getPrazo() != null) {
             Label prazoLbl = new Label("Prazo: " + m.getPrazo().toString());
             info.getChildren().add(prazoLbl);
@@ -174,15 +174,28 @@ public class AreaAluController {
 
         card.getChildren().addAll(icon, info);
 
-        // 🔥 Ao clicar no card, abre a tela de entrega
+        // ─── EFEITO DE HOVER ───────────────────────────────────────
+        String estiloNormal = "-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-color: #DDD; "
+                + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;";
+        String estiloHover = "-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-color: #6b00b3; "
+                + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand; "
+                + "-fx-effect: dropshadow(three-pass-box, rgba(107,0,179,0.4), 10, 0, 0, 0);";
+
+        card.setStyle(estiloNormal);
+
+        card.setOnMouseEntered(e -> card.setStyle(estiloHover));
+        card.setOnMouseExited(e -> card.setStyle(estiloNormal));
+        // ───────────────────────────────────────────────────────────
+
+        // Clique abre tela de entrega
         card.setOnMouseClicked(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/materialEntrega.fxml"));
                 Parent root = loader.load();
 
                 MaterialEntregaController controller = loader.getController();
-                controller.setMaterial(m); // passa o material selecionado
-                controller.setAluno(this.aluno); // passa o aluno logado também (se precisar)
+                controller.setMaterial(m);
+                controller.setAluno(this.aluno);
                 controller.receberDadosAluno(this.aluno);
                 controller.receberDadosProfessor(this.professores);
 
@@ -196,6 +209,7 @@ public class AreaAluController {
 
         return card;
     }
+
 
 
     @FXML
