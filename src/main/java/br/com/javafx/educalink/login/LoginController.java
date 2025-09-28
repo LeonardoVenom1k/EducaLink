@@ -6,6 +6,7 @@ import br.com.javafx.educalink.areaprof.Material;
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
 import br.com.javafx.educalink.areaprof.AreaProfController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -65,6 +66,12 @@ public class LoginController {
         Map<String, Professor> professores = criarMapaProfessores();
         Map<String, Aluno> alunos = criarMapaAlunos();
 
+        senhaVisivel.prefWidthProperty().bind(senha.widthProperty());
+        senhaVisivel.prefHeightProperty().bind(senha.heightProperty());
+        senhaVisivel.fontProperty().bind(senha.fontProperty());
+        senhaVisivel.styleProperty().bind(senha.styleProperty());
+
+
         // Adiciona materiais e professores no singleton
         for (Professor prof : professores.values()) {
             dados.cadastrarProfessor(prof);
@@ -76,21 +83,9 @@ public class LoginController {
         }
     }
 
-    // Materiais para cada professor
-    /*private List<Material> criarMateriaisParaProfessor(Professor prof) {
-        List<Material> materiais = new ArrayList<>();
-        if (prof.getNome().equals("Carlos Vieira")) {
-            materiais.add(new Material("Atividade", "Vetores e Matrizes", "Álgebra Linear", LocalDateTime.now().plusDays(3), prof.getId()));
-            materiais.add(new Material("Atividade", "Derivadas", "Cálculo I", LocalDateTime.now().plusDays(5), prof.getId()));
-        } else if (prof.getNome().equals("Luiz Gonzaga")) {
-            materiais.add(new Material("Atividade", "Pontuação e Sintaxe", "Gramática", LocalDateTime.now().plusDays(2), prof.getId()));
-            materiais.add(new Material("Atividade", "Texto Argumentativo", "Redação", LocalDateTime.now().plusDays(4), prof.getId()));
-        }
-        return materiais;
-    }*/
-
     public Map<String, Professor> criarMapaProfessores() {
         Map<String, Professor> professores = new HashMap<>();
+
         Professor prof1 = new Professor("Carlos Vieira", "admin","Matemática");
         prof1.adicionarMateria("Álgebra Linear");
         prof1.adicionarMateria("Cálculo I");
@@ -101,8 +96,30 @@ public class LoginController {
         prof2.adicionarMateria("Redação");
         professores.put("admin2", prof2);
 
+        Professor prof3 = new Professor("Mariana Souza", "admin3", "Biologia");
+        prof3.adicionarMateria("Genética");
+        prof3.adicionarMateria("Ecologia");
+        professores.put("admin3", prof3);
+
+        Professor prof4 = new Professor("Ricardo Lima", "admin4", "História");
+        prof4.adicionarMateria("História Geral");
+        prof4.adicionarMateria("História do Brasil");
+        professores.put("admin4", prof4);
+
+        Professor prof5 = new Professor("Fernanda Alves", "admin5", "Física");
+        prof5.adicionarMateria("Mecânica");
+        prof5.adicionarMateria("Eletromagnetismo");
+        professores.put("admin5", prof5);
+
+        // NOVO PROFESSOR
+        Professor prof6 = new Professor("Carla Monteiro", "admin6", "Química");
+        prof6.adicionarMateria("Química Orgânica");
+        prof6.adicionarMateria("Química Inorgânica");
+        professores.put("admin6", prof6);
+
         return professores;
     }
+
 
     private Map<String, Aluno> criarMapaAlunos() {
         Map<String, Aluno> alunos = new HashMap<>();
@@ -113,7 +130,6 @@ public class LoginController {
         aluno1.setBairro("Cruzeiro");
         aluno1.setNumero("301");
         aluno1.setEmail("leonardo@email.com");
-        aluno1.setIdsProfessores(List.of("admin", "admin2"));
         alunos.put("2025", aluno1);
 
         Aluno aluno2 = new Aluno("Lucas Rodrigues Xavier", "20251");
@@ -122,18 +138,68 @@ public class LoginController {
         aluno2.setBairro("Papagaio");
         aluno2.setNumero("679");
         aluno2.setEmail("lucas@email.com");
-        aluno2.setIdsProfessores(List.of("admin", "admin2"));
         alunos.put("20251", aluno2);
+
+        Aluno aluno3 = new Aluno("Ana Beatriz", "20252");
+        aluno3.setCurso("Ensino Médio - 2º Ano");
+        aluno3.setEndereco("Rua das Flores");
+        aluno3.setBairro("Centro");
+        aluno3.setNumero("120");
+        aluno3.setEmail("ana@email.com");
+        alunos.put("20252", aluno3);
+
+        Aluno aluno4 = new Aluno("Pedro Henrique", "20253");
+        aluno4.setCurso("Ensino Médio - 3º Ano");
+        aluno4.setEndereco("Av. Brasil");
+        aluno4.setBairro("São José");
+        aluno4.setNumero("45");
+        aluno4.setEmail("pedro@email.com");
+        alunos.put("20253", aluno4);
+
+        Aluno aluno5 = new Aluno("Maria Eduarda", "20254");
+        aluno5.setCurso("Ensino Médio - 1º Ano");
+        aluno5.setEndereco("Rua das Palmeiras");
+        aluno5.setBairro("Boa Vista");
+        aluno5.setNumero("87");
+        aluno5.setEmail("mariaeduarda@email.com");
+        alunos.put("20254", aluno5);
+
+        // NOVOS ALUNOS
+        Aluno aluno6 = new Aluno("Gustavo Mendes", "20255");
+        aluno6.setCurso("Sistemas de Informação");
+        aluno6.setEndereco("Rua Nova Esperança");
+        aluno6.setBairro("Jardim das Rosas");
+        aluno6.setNumero("210");
+        aluno6.setEmail("gustavo@email.com");
+        alunos.put("20255", aluno6);
+
+        Aluno aluno7 = new Aluno("Juliana Campos", "20256");
+        aluno7.setCurso("Ensino Médio - 2º Ano");
+        aluno7.setEndereco("Rua da Liberdade");
+        aluno7.setBairro("Vila Nova");
+        aluno7.setNumero("98");
+        aluno7.setEmail("juliana@email.com");
+        alunos.put("20256", aluno7);
 
         return alunos;
     }
+
 
     private Map<String, String> criarMapaSenhas() {
         Map<String, String> senhas = new HashMap<>();
         senhas.put("2025", "faitec25");
         senhas.put("20251", "faitec25");
+        senhas.put("20252", "faitec25");
+        senhas.put("20253", "faitec25");
+        senhas.put("20254", "faitec25");
+        senhas.put("20255", "faitec25"); // novo aluno
+        senhas.put("20256", "faitec25"); // novo aluno
         senhas.put("admin", "admin");
         senhas.put("admin2", "admin2");
+        senhas.put("admin3", "admin3");
+        senhas.put("admin4", "admin4");
+        senhas.put("admin5", "admin5");
+        senhas.put("admin6", "admin6"); // novo professor
         return senhas;
     }
 
@@ -157,13 +223,8 @@ public class LoginController {
                     AreaAluController controller = loader.getController();
                     Aluno alunoLogado = alunos.get(user);
 
-                    List<Professor> professoresDoAluno = new ArrayList<>();
-                    for (String idProf : alunoLogado.getIdsProfessores()) {
-                        Professor prof = professores.get(idProf);
-                        if (prof != null) {
-                            professoresDoAluno.add(prof);
-                        }
-                    }
+                    // Agora passa todos os professores
+                    List<Professor> professoresDoAluno = new ArrayList<>(professores.values());
 
                     controller.receberDadosAluno(alunoLogado);
                     controller.receberDadosProfessor(professoresDoAluno);
@@ -222,25 +283,37 @@ public class LoginController {
         senhaEstaVisivel = !senhaEstaVisivel;
 
         if (senhaEstaVisivel) {
+            int caretPos = senha.getCaretPosition();
             senhaVisivel.setText(senha.getText());
             senhaVisivel.setVisible(true);
             senhaVisivel.setManaged(true);
             senha.setVisible(false);
             senha.setManaged(false);
-            senhaVisivel.requestFocus();
-            senhaVisivel.positionCaret(senhaVisivel.getText().length());
+
+            Platform.runLater(() -> {
+                senhaVisivel.requestFocus();
+                Platform.runLater(() -> senhaVisivel.positionCaret(caretPos));
+            });
+
             iconSenha.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/login/eye_view.png")));
         } else {
+            int caretPos = senhaVisivel.getCaretPosition();
             senha.setText(senhaVisivel.getText());
             senha.setVisible(true);
             senha.setManaged(true);
             senhaVisivel.setVisible(false);
             senhaVisivel.setManaged(false);
-            senha.requestFocus();
-            senha.positionCaret(senha.getText().length());
+
+            Platform.runLater(() -> {
+                senha.requestFocus();
+                Platform.runLater(() -> senha.positionCaret(caretPos));
+            });
+
             iconSenha.setImage(new Image(getClass().getResourceAsStream("/br/com/javafx/educalink/img/login/eye_block.png")));
         }
     }
+
+
 
     private void mostrarAlerta(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

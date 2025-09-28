@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -40,9 +41,9 @@
                     <Font name="System Bold" size="18.0" />
                 </font>
             </Label>
-         <HBox.margin>
-            <Insets left="5.0" />
-         </HBox.margin>
+            <HBox.margin>
+                <Insets left="5.0" />
+            </HBox.margin>
         </HBox>
 
         <!-- Espaçador -->
@@ -50,18 +51,22 @@
 
         <!-- Botão sair -->
         <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px;" text="SAIR" />
-      <padding>
-         <Insets left="15.0" right="15.0" />
-      </padding>
+        <padding>
+            <Insets left="15.0" right="15.0" />
+        </padding>
     </HBox>
 
     <!-- Título -->
-    <Label text="Matérias Disponíveis" AnchorPane.leftAnchor="35" AnchorPane.topAnchor="80">
+    <Label layoutX="35.0" layoutY="130.0" text="CURSOS DISPONÍVEIS" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="130.0">
         <font>
             <Font name="System Bold" size="24.0" />
         </font>
     </Label>
 
-    <!-- Lista de matérias -->
-    <VBox fx:id="listamaterias" layoutX="35.0" layoutY="131.0" prefHeight="550.0" prefWidth="1210.0" style="-fx-background-color: #F9F9F9; -fx-background-radius: 10; -fx-border-color: #DDDDDD; -fx-border-radius: 10; -fx-padding: 10;" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="131.0" />
+    <!-- Scroll com lista de matérias -->
+    <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutY="177.0" prefHeight="504.0" prefWidth="1210.0" vbarPolicy="AS_NEEDED" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="177.0">
+        <content>
+            <VBox fx:id="listamaterias" prefHeight="550.0" prefWidth="1210.0" style="-fx-background-color: #F9F9F9; -fx-background-radius: 10; -fx-border-color: #DDDDDD; -fx-border-radius: 10; -fx-padding: 10;" />
+        </content>
+    </ScrollPane>
 </AnchorPane>

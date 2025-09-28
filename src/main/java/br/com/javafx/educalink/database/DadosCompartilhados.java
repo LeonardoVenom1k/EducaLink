@@ -24,9 +24,12 @@ public class DadosCompartilhados {
     private Map<String, List<String>> inscricoesJson; // ID professor → list<matrículas>
 
     private DadosCompartilhados() {
-        inscricoesJson = InscricaoStorage.carregar();
-        materiais = MaterialStorage.carregar();
-        entregas = EntregaStorage.carregar();
+        inscricoesJson = Optional.ofNullable(InscricaoStorage.carregar())
+                .orElse(new HashMap<>());
+        materiais = Optional.ofNullable(MaterialStorage.carregar())
+                .orElse(new ArrayList<>());
+        entregas = Optional.ofNullable(EntregaStorage.carregar())
+                .orElse(new ArrayList<>());
     }
 
     public static DadosCompartilhados getInstancia() {
@@ -129,6 +132,10 @@ public class DadosCompartilhados {
     }
 
     public int getTotalAlunos(Professor professor) {
+        if (inscricoesJson == null) {
+            inscricoesJson = new HashMap<>();
+            return 0;
+        }
         return inscricoesJson.getOrDefault(professor.getId(), Collections.emptyList()).size();
     }
 

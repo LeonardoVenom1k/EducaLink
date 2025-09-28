@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,10 +12,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaprof.AluInscritoController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.com.javafx.educalink.areaprof.AluInscritoController">
 
     <!-- Topo -->
-    <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1280.0" spacing="20" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1280.0" spacing="20"
+          style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
         <!-- LOGO -->
         <ImageView fitHeight="46.0" fitWidth="162.0" pickOnBounds="true" preserveRatio="true">
@@ -27,7 +33,9 @@
         <Region HBox.hgrow="ALWAYS" />
 
         <!-- Título central -->
-        <Label alignment="CENTER" prefHeight="37.0" prefWidth="260.0" style="-fx-font-size: 23; -fx-font-weight: bold;" text="ALUNOS INSCRITOS">
+        <Label alignment="CENTER" prefHeight="37.0" prefWidth="260.0"
+               style="-fx-font-size: 23; -fx-font-weight: bold;"
+               text="PAINEL DO PROFESSOR">
             <font>
                 <Font size="23.0" />
             </font>
@@ -37,19 +45,33 @@
         <Region HBox.hgrow="ALWAYS" />
 
         <!-- Botão sair -->
-        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px;" text="VOLTAR" />
-      <padding>
-         <Insets left="15.0" right="15.0" />
-      </padding>
+        <Button fx:id="sair" onAction="#clicouSair" prefHeight="39.0" prefWidth="100"
+                style="-fx-background-color: #820AD1; -fx-text-fill: white;
+                       -fx-background-radius: 20; -fx-font-size: 18px;"
+                text="VOLTAR" />
+        <padding>
+            <Insets left="15.0" right="15.0" />
+        </padding>
     </HBox>
 
     <!-- Subtítulo -->
-    <Label layoutX="35.0" layoutY="86.0" style="-fx-font-weight: bold;" text="ALUNOS NA MATÉRIA" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="86.0">
+    <Label layoutX="35.0" layoutY="124.0" style="-fx-font-weight: bold;"
+           text="ALUNOS INSCRITOS NA MATÉRIA"
+           AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="124.0">
         <font>
             <Font size="22.0" />
         </font>
     </Label>
 
-    <!-- Lista de alunos -->
-    <VBox fx:id="listaalunos" layoutY="134.0" prefHeight="555.0" prefWidth="1210.0" style="-fx-background-color: #F9F9F9; -fx-background-radius: 10;                  -fx-border-color: #DDDDDD; -fx-border-radius: 10; -fx-padding: 10;" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35" AnchorPane.topAnchor="134.0" />
+    <!-- Scroll da lista de alunos -->
+    <ScrollPane fitToWidth="true"
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+                AnchorPane.topAnchor="176.0" AnchorPane.leftAnchor="35.0"
+                AnchorPane.rightAnchor="35.0" AnchorPane.bottomAnchor="31.0">
+
+        <VBox fx:id="listaalunos"
+              style="-fx-background-color: #F9F9F9; -fx-background-radius: 10;
+                     -fx-border-color: #DDDDDD; -fx-border-radius: 10; -fx-padding: 10;"
+              prefWidth="1210.0" />
+    </ScrollPane>
 </AnchorPane>

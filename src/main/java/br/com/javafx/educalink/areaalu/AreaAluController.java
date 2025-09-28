@@ -26,6 +26,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -197,7 +198,7 @@ public class AreaAluController {
         // Clique abre tela de entrega
         card.setOnMouseClicked(event -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/materialEntrega.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/materialentrega.fxml"));
                 Parent root = loader.load();
 
                 MaterialEntregaController controller = loader.getController();
@@ -323,7 +324,8 @@ public class AreaAluController {
 
             InscricaoController controller = loader.getController();
             controller.receberDadosAluno(this.aluno);
-            controller.receberDadosProfessor(this.professores);
+            List<Professor> professores = new ArrayList<>(DadosCompartilhados.getInstancia().getProfessores().values());
+            controller.receberDadosProfessor(professores);
 
             Stage stage = (Stage) materias.getScene().getWindow();
             trocaCena(stage, root, "Inscrição em Matérias");

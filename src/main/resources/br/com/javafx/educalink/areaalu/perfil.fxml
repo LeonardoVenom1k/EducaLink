@@ -41,10 +41,10 @@
     </HBox>
 
     <!-- Conteúdo central dividido em 2 colunas -->
-    <GridPane hgap="40" layoutY="87.0" prefHeight="613.0" prefWidth="1240.0" vgap="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="87.0">
+    <GridPane alignment="TOP_CENTER" hgap="40" layoutY="101.0" prefHeight="599.0" prefWidth="1223.0" vgap="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="101.0">
         <columnConstraints>
             <ColumnConstraints percentWidth="40" />
-            <ColumnConstraints percentWidth="60" />
+            <ColumnConstraints percentWidth="50.0" />
         </columnConstraints>
 
         <!-- Coluna esquerda -->
@@ -65,7 +65,7 @@
             </font></Label>
             <TextField fx:id="campoNome" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
 
             <Label style="-fx-font-weight: bold;" text="Matrícula:">
@@ -74,7 +74,7 @@
             </font></Label>
             <TextField fx:id="campoMatricula" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
 
             <Label style="-fx-font-weight: bold;" text="Curso:">
@@ -83,19 +83,19 @@
             </font></Label>
             <TextField fx:id="campoCurso" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
         </VBox>
 
         <!-- Coluna direita -->
-        <VBox prefWidth="711.0" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <VBox prefWidth="652.0" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
             <Label style="-fx-font-weight: bold;" text="Endereço:">
             <font>
                <Font size="18.0" />
             </font></Label>
             <TextField fx:id="campoEndereco" editable="false" prefWidth="219.0" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
 
             <Label style="-fx-font-weight: bold;" text="Bairro:">
@@ -104,7 +104,7 @@
             </font></Label>
             <TextField fx:id="campoBairro" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
 
             <Label style="-fx-font-weight: bold;" text="Número:">
@@ -113,7 +113,7 @@
             </font></Label>
             <TextField fx:id="campoNumero" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
 
             <Label style="-fx-font-weight: bold;" text="Email:">
@@ -122,7 +122,7 @@
             </font></Label>
             <TextField fx:id="campoEmail" editable="false" style="-fx-background-radius: 20; -fx-background-color: #F5F5F5;">
             <font>
-               <Font size="14.0" />
+               <Font size="15.0" />
             </font></TextField>
         </VBox>
       <rowConstraints>

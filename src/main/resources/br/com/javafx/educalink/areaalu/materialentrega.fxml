@@ -14,90 +14,114 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.javafx.educalink.areaalu.MaterialEntregaController">
-   <children>
-   
-       <!-- Topo -->
-       <HBox alignment="CENTER_LEFT" prefHeight="68.0" spacing="20" style="-fx-background-color: white; -fx-border-color: #C3C3C3; -fx-border-width: 0 0 2 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-           <padding>
-               <Insets left="15.0" right="15.0" />
-           </padding>
-           <children>
-               <ImageView fitHeight="46.0" fitWidth="162.0" preserveRatio="true">
-                   <image>
-                       <Image url="@../img/areaalu/Logoeduca.png" />
-                   </image>
-               </ImageView>
-   
-               <Region HBox.hgrow="ALWAYS" />
-   
-               <Button fx:id="voltar" onAction="#clicouVoltar" prefHeight="39.0" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18; -fx-pref-width: 100px;" text="VOLTAR" />
-           </children>
-       </HBox>
-   
-       <!-- Conteúdo principal -->
-       <VBox spacing="25" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="90">
-      <children>
-              <!-- Título -->
-              <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="MATERIAL/ATIVIDADE" />
-      
-              <!-- Linha disciplina / assunto / material -->
-              <HBox spacing="40">
-         <children>
-                     <VBox prefHeight="124.0" prefWidth="137.0" spacing="15.0">
-                        <children>
-                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Disciplina:" />
-                            <Label fx:id="disciplinaLabel" style="-fx-font-size: 14px;" text="---" />
-            
-                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Assunto:" />
-                            <Label fx:id="assuntoLabel" style="-fx-font-size: 14px;" text="---" />
-                        </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     </VBox>
-                  <Region prefHeight="110.0" prefWidth="710.0" />
-         
-                     <VBox prefHeight="139.0" prefWidth="273.0" spacing="15.0">
-            <children>
-                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Material de apoio:" />
-                            <Hyperlink fx:id="materialLink" style="-fx-font-size: 14px;" text="Baixar Arquivo" visible="false">
-                                <graphic>
-                                    <ImageView fitHeight="35.0" fitWidth="35.0" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../img/ativmate/filelogo.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                            </Hyperlink>
-            </children>
-                     </VBox>
-         </children>
-              </HBox>
-      
-              <!-- Pane da Atividade (mostrado só se for Atividade) -->
-              <VBox fx:id="atividadePane" managed="false" spacing="15" visible="false">
-         <children>
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Comentar/Anexar Arquivo" />
-                     <TextArea fx:id="atividadeArea" prefHeight="264.0" prefWidth="1200.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font></TextArea>
-                     <HBox prefHeight="39.0" prefWidth="1211.0" spacing="15">
-                        <children>
-                            <Button fx:id="anexarBtn" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Anexar arquivos">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Button>
-                            <Button fx:id="enviarBtn" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20;" text="Enviar">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Button>
-                        </children>
-                     </HBox>
-         </children>
-              </VBox>
-      </children>
-       </VBox>
-   </children>
 
+    <children>
+        <!-- Topo -->
+        <HBox alignment="CENTER_LEFT" prefHeight="68.0" spacing="20" style="-fx-background-color: white; -fx-border-color: #C3C3C3; -fx-border-width: 0 0 2 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2);" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <padding>
+                <Insets left="15.0" right="15.0" />
+            </padding>
+            <children>
+                <ImageView fitHeight="46.0" fitWidth="162.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/areaalu/Logoeduca.png" />
+                    </image>
+                </ImageView>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <Button fx:id="voltar" onAction="#clicouVoltar" prefHeight="39.0" prefWidth="100.0" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.5, 0, 2);" text="VOLTAR" />
+            </children>
+        </HBox>
+
+        <!-- Conteúdo principal -->
+        <VBox layoutY="119.0" prefHeight="598.0" prefWidth="1200.0" spacing="25" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="119.0">
+            <children>
+
+                <!-- Título -->
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="MATERIAL/ATIVIDADE" />
+
+                <!-- Linha disciplina / assunto / material -->
+                <HBox spacing="40">
+                    <children>
+
+                        <!-- Disciplina e Assunto -->
+                        <VBox prefHeight="124.0" prefWidth="137.0" spacing="15.0">
+                            <children>
+                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Disciplina:" />
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 15; -fx-border-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.5, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="6" left="10" right="10" top="6" />
+                                    </padding>
+                                    <children>
+                                        <Label fx:id="disciplinaLabel" style="-fx-font-size: 15px; -fx-text-fill: #333333;" text="---" />
+                                    </children>
+                                </HBox>
+
+                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Assunto:" />
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 15; -fx-border-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.5, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="6" left="10" right="10" top="6" />
+                                    </padding>
+                                    <children>
+                                        <Label fx:id="assuntoLabel" style="-fx-font-size: 15px; -fx-text-fill: #333333;" text="---" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <Region prefHeight="110.0" prefWidth="710.0" />
+
+                        <!-- Material de Apoio -->
+                        <VBox prefHeight="139.0" prefWidth="273.0" spacing="15.0">
+                            <children>
+                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Material de apoio:" />
+                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 15; -fx-border-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.5, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="6" left="10" right="10" top="6" />
+                                    </padding>
+                                    <children>
+                                        <Hyperlink fx:id="materialLink" style="-fx-font-size: 15px; -fx-border-color: transparent;" text="Baixar Arquivo" visible="false">
+                                            <graphic>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../img/ativmate/filelogo.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Hyperlink>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Pane da Atividade -->
+                <VBox fx:id="atividadePane" managed="false" prefHeight="352.0" prefWidth="1200.0" spacing="15" style="-fx-background-color: #F9F9F9; -fx-background-radius: 15; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.5, 0, 2);" visible="false">
+                    <children>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Comentar/Anexar Arquivo" />
+                        <TextArea fx:id="atividadeArea" prefHeight="264.0" prefWidth="1200.0" style="-fx-font-size: 15px; -fx-background-radius: 15; -fx-padding: 10;" wrapText="true" />
+                        <HBox prefHeight="39.0" prefWidth="1170.0" spacing="15">
+                            <children>
+                                <Button fx:id="anexarBtn" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.5, 0, 2);" text="Anexar arquivos">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Button>
+                                <Button fx:id="enviarBtn" style="-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.5, 0, 2);" text="Enviar">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Button>
+                            </children>
+                        </HBox>
+                    </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+                </VBox>
+
+            </children>
+        </VBox>
+
+    </children>
 </AnchorPane>
