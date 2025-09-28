@@ -4,6 +4,8 @@ import br.com.javafx.educalink.alunos.Aluno;
 import br.com.javafx.educalink.areaprof.Material;
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
+import br.com.javafx.educalink.database.CorrecaoStorage;
+import br.com.javafx.educalink.areaprof.Correcao;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,6 +30,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class AreaAluController {
+
+    @FXML
+    private VBox correcoesBox;
 
     @FXML
     private Button sair;
@@ -71,12 +76,14 @@ public class AreaAluController {
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
         carregarAtividades();
+        carregarCorrecoes();
     }
 
     public void receberDadosAluno(Aluno aluno) {
         this.aluno = aluno;
         System.out.println("Recebido aluno: " + aluno.getNome());
         carregarAtividades();
+        carregarCorrecoes();
     }
 
     public void receberDadosProfessor(List<Professor> professores) {
@@ -210,6 +217,102 @@ public class AreaAluController {
         return card;
     }
 
+    public void carregarCorrecoes() {
+        correcoesBox.getChildren().clear();
+
+        if (aluno == null) {
+            mostrarAlerta("Nenhum aluno logado.");
+            return;
+        }
+
+        boolean encontrou = false;
+
+        List<Correcao> correcoes = CorrecaoStorage.carregar();
+
+        for (Correcao correcao : correcoes) {
+            if (correcao.getAlunoMatricula() != null &&
+                    correcao.getAlunoMatricula().equals(aluno.getMatricula())) {
+
+                encontrou = true;
+                HBox card = criarCardCorrecao(correcao);
+                correcoesBox.getChildren().add(card);
+            }
+        }
+
+        if (!encontrou) {
+            Label vazio = new Label("Nenhuma correção disponível ainda.");
+            vazio.setStyle("-fx-font-size: 16px; -fx-text-fill: #555;");
+            correcoesBox.getChildren().add(vazio);
+        }
+    }
+
+
+
+    private HBox criarCardCorrecao(Correcao correcao) {
+        HBox card = new HBox(10);
+        card.setStyle("-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-color: #DDD; "
+                + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;");
+
+        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(
+                "/br/com/javafx/educalink/img/areaalu/Pasteicon.png")));
+        icon.setFitHeight(40);
+        icon.setFitWidth(40);
+
+        VBox info = new VBox(5);
+
+        // Buscar Material correspondente
+        String materia = "Indisponível";
+        String assunto = "Indisponível";
+        List<Material> materiais = DadosCompartilhados.getInstancia().getMateriais();
+        for (Material m : materiais) {
+            if (m.getId() != null && m.getId().equals(correcao.getAtividadeId())) {
+                materia = m.getMateria();
+                assunto = m.getAssunto();
+                break;
+            }
+        }
+
+        Label tituloLbl = new Label("Correção");
+        tituloLbl.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+
+        Label materiaLbl = new Label("Matéria: " + materia);
+        Label assuntoLbl = new Label("Assunto: " + assunto);
+
+        info.getChildren().addAll(tituloLbl, materiaLbl, assuntoLbl);
+        card.getChildren().addAll(icon, info);
+
+        // ─── EFEITO DE HOVER ───────────────────────────────────────
+        String estiloNormal = "-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-border-color: #DDD; "
+                + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;";
+        String estiloHover = "-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-color: #6b00b3; "
+                + "-fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand; "
+                + "-fx-effect: dropshadow(three-pass-box, rgba(107,0,179,0.4), 10, 0, 0, 0);";
+
+        card.setStyle(estiloNormal);
+        card.setOnMouseEntered(e -> card.setStyle(estiloHover));
+        card.setOnMouseExited(e -> card.setStyle(estiloNormal));
+        // ───────────────────────────────────────────────────────────
+
+        card.setOnMouseClicked(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaalu/correcao.fxml"));
+                Parent root = loader.load();
+
+                CorrecaoController controller = loader.getController();
+                controller.setCorrecao(correcao.getMateria(), correcao.getAssunto(), correcao.getCaminhoArquivo(), correcao.getComentario());
+                controller.receberDadosAluno(this.aluno);
+                controller.receberDadosProfessor(this.professores);
+
+                Stage stage = (Stage) sair.getScene().getWindow();
+                trocaCena(stage, root, "Correção");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return card;
+    }
 
 
     @FXML

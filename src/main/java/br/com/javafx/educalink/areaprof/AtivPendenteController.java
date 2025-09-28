@@ -1,7 +1,8 @@
 package br.com.javafx.educalink.areaprof;
 
-import br.com.javafx.educalink.alunos.Aluno;
 import br.com.javafx.educalink.areaalu.Entrega;
+import br.com.javafx.educalink.areaprof.Correcao;
+import br.com.javafx.educalink.database.CorrecaoStorage;
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AtivPendenteController {
 
@@ -38,7 +40,9 @@ public class AtivPendenteController {
         iniciarTela();
     }
 
-    public void carregarAlunos(List<Aluno> alunos) {}
+    public void atualizarTela() {
+        carregarAtividadesDoSistema();
+    }
 
     private void iniciarTela() {
         carregarAtividadesDoSistema();
@@ -49,6 +53,8 @@ public class AtivPendenteController {
 
         entregasFiltradas.clear();
         List<Entrega> entregas = DadosCompartilhados.getEntregas();
+        List<Correcao> correcoes = CorrecaoStorage.carregar();
+
         List<AtividadeDTO> lista = new ArrayList<>();
 
         for (Entrega e : entregas) {
@@ -56,14 +62,19 @@ public class AtivPendenteController {
                     e.getAtividade().getProfessorId().equals(professor.getId()) &&
                     "Atividade".equalsIgnoreCase(e.getAtividade().getTipo())) {
 
-                entregasFiltradas.add(e);
+                boolean jaCorrigida = correcoes.stream()
+                        .anyMatch(c -> c.getAtividadeId().equals(e.getAtividade().getId()) &&
+                                Objects.equals(c.getAlunoMatricula(), e.getAlunoMatricula()));
 
-                lista.add(new AtividadeDTO(
-                        e.getAtividade().getAssunto(),
-                        e.getAlunoNome(),
-                        e.getArquivoPath(),
-                        e.getDataEntrega().atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
-                ));
+                if (!jaCorrigida) {
+                    entregasFiltradas.add(e);
+                    lista.add(new AtividadeDTO(
+                            e.getAtividade().getAssunto(),
+                            e.getAlunoNome(),
+                            e.getArquivoPath(),
+                            e.getDataEntrega().atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    ));
+                }
             }
         }
 
@@ -94,7 +105,6 @@ public class AtivPendenteController {
             card.setStyle(estiloNormal);
             card.setPrefHeight(80);
 
-            // Ícone
             VBox iconeBox = new VBox();
             iconeBox.setStyle("-fx-alignment: center;");
             ImageView icone = new ImageView(new Image(getClass().getResourceAsStream(
@@ -103,7 +113,6 @@ public class AtivPendenteController {
             icone.setFitWidth(40);
             iconeBox.getChildren().add(icone);
 
-            // Infos
             VBox infos = new VBox(5);
             Label titulo = new Label("Assunto: " + ativ.getAssunto());
             titulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -115,11 +124,9 @@ public class AtivPendenteController {
 
             card.getChildren().addAll(iconeBox, infos);
 
-            // ─── EFEITO HOVER ───────────────────────────────────────
             card.setOnMouseEntered(e -> card.setStyle(estiloHover));
             card.setOnMouseExited(e -> card.setStyle(estiloNormal));
 
-            // ─── CLIQUE EM QUALQUER PARTE DO CARD ───────────────
             card.setOnMouseClicked(e -> {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/corrigirAt.fxml"));
@@ -127,6 +134,7 @@ public class AtivPendenteController {
 
                     CorrigirAtController controller = loader.getController();
                     controller.setDados(entregasFiltradas.get(atividades.indexOf(ativ)), professor);
+                    controller.setAtivPendenteController(this);
 
                     Stage stage = (Stage) atividadesBox.getScene().getWindow();
                     stage.setScene(new Scene(root));

@@ -85,7 +85,7 @@
                     fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
 
             <content>
-                <VBox fx:id="correcaoBox" spacing="10" />
+                <VBox fx:id="correcoesBox" spacing="10" />
             </content>
         </ScrollPane>
 

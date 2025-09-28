@@ -99,10 +99,14 @@
                 </Label>
                 <VBox fx:id="listaCorrigidos" spacing="5" style="-fx-background-color:#f9f9f9; -fx-border-color:#ddd; -fx-padding:10;" VBox.vgrow="ALWAYS" />
 
-                <Button fx:id="btnAnexar" prefHeight="30" prefWidth="140" style="-fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-background-radius: 15;" text="Anexar arquivos">
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
+                <Button fx:id="btnAnexar" onAction="#clicouAnexar"
+                        prefHeight="30" prefWidth="140"
+                        style="-fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-background-radius: 15;"
+                        text="Anexar arquivos">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
             </VBox>
         </HBox>
 
@@ -119,10 +123,14 @@
 
     <!-- Botões -->
     <HBox alignment="CENTER_LEFT" spacing="20">
-        <Button fx:id="btnEnviar" prefHeight="30" prefWidth="100" style="-fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-background-radius: 15;" text="Enviar">
+        <Button fx:id="btnEnviar" onAction="#clicouEnviar"
+                prefHeight="30" prefWidth="100"
+                style="-fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-background-radius: 15;"
+                text="Enviar">
             <font>
-               <Font size="14.0" />
-            </font></Button>
+                <Font size="14.0" />
+            </font>
+        </Button>
     </HBox>
 </VBox>
 </AnchorPane>

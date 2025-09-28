@@ -1,6 +1,7 @@
 package br.com.javafx.educalink.database;
 
 import br.com.javafx.educalink.alunos.Aluno;
+import br.com.javafx.educalink.areaalu.AreaAluController;
 import br.com.javafx.educalink.areaprof.AluInscritoController;
 import br.com.javafx.educalink.areaprof.AreaProfController;
 import br.com.javafx.educalink.areaprof.Material;
@@ -16,6 +17,7 @@ public class DadosCompartilhados {
     private AreaProfController areaProfController;
     private AluInscritoController aluInscritoController;
     private static DadosCompartilhados instancia;
+    private AreaAluController areaAluController;
 
     private Map<String, Professor> professores = new HashMap<>();
     private Map<String, Aluno> alunos = new HashMap<>();
@@ -178,4 +180,38 @@ public class DadosCompartilhados {
     private void salvarInscricoes() {
         InscricaoStorage.salvar(inscricoesJson);
     }
+
+    private void salvarEntregas() {
+        EntregaStorage.salvar(entregas);
+    }
+
+    public void setAreaAluController(AreaAluController controller) {
+        this.areaAluController = controller;
+    }
+
+    public AreaAluController getAreaAluController() {
+        return areaAluController;
+    }
+
+    public void atualizarEntrega(Entrega entregaCorrigida) {
+        List<Entrega> entregas = getEntregas();
+        for (int i = 0; i < entregas.size(); i++) {
+            Entrega e = entregas.get(i);
+            if (e.equals(entregaCorrigida)) {
+                entregas.set(i, entregaCorrigida);
+                salvarEntregas();
+                if (areaAluController != null) {
+                    areaAluController.carregarCorrecoes();
+                }
+                return;
+            }
+        }
+        entregas.add(entregaCorrigida);
+        salvarEntregas();
+        if (areaAluController != null) {
+            areaAluController.carregarCorrecoes();
+        }
+    }
+
+
 }

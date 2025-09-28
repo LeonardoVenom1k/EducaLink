@@ -64,7 +64,7 @@
                                 <graphic>
                                     <ImageView fitHeight="35.0" fitWidth="35.0" preserveRatio="true">
                                         <image>
-                                            <Image url="@../ativmate/filelogo.png" />
+                                            <Image url="@../img/ativmate/filelogo.png" />
                                         </image>
                                     </ImageView>
                                 </graphic>
@@ -80,7 +80,7 @@
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Comentar/Anexar Arquivo" />
                      <TextArea fx:id="atividadeArea" prefHeight="264.0" prefWidth="1200.0">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></TextArea>
                      <HBox prefHeight="39.0" prefWidth="1211.0" spacing="15">
                         <children>

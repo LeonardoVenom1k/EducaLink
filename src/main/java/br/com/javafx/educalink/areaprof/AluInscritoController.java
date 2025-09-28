@@ -2,6 +2,7 @@ package br.com.javafx.educalink.areaprof;
 
 import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.professores.Professor;
+import br.com.javafx.educalink.alunos.Aluno;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,14 +17,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import br.com.javafx.educalink.alunos.Aluno;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
 
 public class AluInscritoController {
-    Professor professor;
+
+    private Professor professor;
 
     @FXML
     private Button sair;
@@ -33,11 +34,7 @@ public class AluInscritoController {
 
     @FXML
     public void initialize() {
-        sair.setOnMouseEntered(e -> sair.setStyle(
-                "-fx-background-color: #6b00b3; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
-        sair.setOnMouseExited(e -> sair.setStyle(
-                "-fx-background-color: #820AD1; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 18px; -fx-pref-width: 100px; -fx-cursor: hand;"));
-
+        aplicarEfeitoBotao(sair, "#820AD1", "#6b00b3", 20, 18, 100);
         sair.setOnAction(this::clicouSair);
 
         DadosCompartilhados.getInstancia().setAluInscritoController(this);
@@ -45,6 +42,13 @@ public class AluInscritoController {
 
     public void carregarAlunos(List<Aluno> alunos) {
         listaalunos.getChildren().clear();
+
+        if (alunos == null || alunos.isEmpty()) {
+            Label vazio = new Label("Nenhum aluno inscrito.");
+            vazio.setStyle("-fx-font-size: 16px; -fx-text-fill: #666;");
+            listaalunos.getChildren().add(vazio);
+            return;
+        }
 
         for (Aluno aluno : alunos) {
             HBox card = criarCardAluno(aluno.getNome(), aluno.getEmail());
@@ -69,17 +73,13 @@ public class AluInscritoController {
         Label lblEmail = new Label(email);
         lblEmail.setStyle("-fx-text-fill: white; -fx-font-size: 20px;");
 
-        // VBox para empilhar nome e email
         VBox dados = new VBox(lblNome, lblEmail);
         dados.setSpacing(7);
-        dados.setAlignment(Pos.CENTER); // centraliza dentro do VBox
+        dados.setAlignment(Pos.CENTER);
 
-        // 🔥 Faz o VBox ocupar todo o espaço disponível no HBox
         HBox.setHgrow(dados, Priority.ALWAYS);
 
         card.getChildren().addAll(icone, dados);
-
-        // 🔥 margem para separar cada card
         VBox.setMargin(card, new Insets(10, 0, 10, 0));
 
         return card;
@@ -91,7 +91,6 @@ public class AluInscritoController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/javafx/educalink/areaprof/areaprof.fxml"));
             Parent root = loader.load();
 
-            // Usa o professor já salvo no controller
             AreaProfController areaProfController = loader.getController();
             areaProfController.receberDadosProfessor(this.professor);
 
@@ -108,5 +107,22 @@ public class AluInscritoController {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    private void aplicarEfeitoBotao(Button botao, String corNormal, String corHover, int raioBorda, int tamanhoFonte, int larguraPref) {
+        botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        ));
+
+        botao.setOnMouseEntered(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corHover, raioBorda, tamanhoFonte, larguraPref
+        )));
+
+        botao.setOnMouseExited(e -> botao.setStyle(String.format(
+                "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",
+                corNormal, raioBorda, tamanhoFonte, larguraPref
+        )));
     }
 }

@@ -1,6 +1,9 @@
 package br.com.javafx.educalink.areaprof;
 
 import br.com.javafx.educalink.areaalu.Entrega;
+import br.com.javafx.educalink.areaprof.Correcao;
+import br.com.javafx.educalink.database.CorrecaoStorage;
+import br.com.javafx.educalink.database.DadosCompartilhados;
 import br.com.javafx.educalink.database.EntregaStorage;
 import br.com.javafx.educalink.professores.Professor;
 import javafx.event.ActionEvent;
@@ -34,6 +37,8 @@ public class CorrigirAtController {
     private Professor professor;
     private File arquivoCorrecao;
     private List<Entrega> entregas;
+    private Entrega entregaAtual;
+    private AtivPendenteController ativPendenteController;
 
     @FXML
     public void initialize() {
@@ -42,6 +47,10 @@ public class CorrigirAtController {
         aplicarEfeitoBotao(btnEnviar, "#820AD1", "#6b00b3", 20, 18, 100);
 
         carregueEntregas();
+    }
+
+    public void setAtivPendenteController(AtivPendenteController controller) {
+        this.ativPendenteController = controller;
     }
 
     private void carregueEntregas() {
@@ -59,9 +68,11 @@ public class CorrigirAtController {
     public void setDados(Entrega entrega, Professor professor) {
         if (entrega == null) return;
 
+        this.entregaAtual = entrega;
+        this.professor = professor;
+
         txtAluno.setText(entrega.getAlunoNome());
         txtAtividade.setText(entrega.getAtividade().getAssunto());
-        this.professor = professor;
 
         listaAluno.getItems().clear();
 
@@ -106,10 +117,36 @@ public class CorrigirAtController {
             return;
         }
 
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Correção enviada com sucesso!", ButtonType.OK);
-        alerta.showAndWait();
+        if (entregaAtual != null) {
+            entregaAtual.setCorrigida(true);
+            entregaAtual.setCorrecaoComentario(comentario);
+            entregaAtual.setCorrecaoArquivo(
+                    arquivoCorrecao != null ? arquivoCorrecao.getAbsolutePath() : null
+            );
 
-        voltarTelaAnterior();
+            DadosCompartilhados.getEntregas().removeIf(e -> e.equals(entregaAtual));
+            DadosCompartilhados.getEntregas().add(entregaAtual);
+            EntregaStorage.salvar(DadosCompartilhados.getEntregas());
+
+            Correcao correcao = new Correcao(
+                    entregaAtual.getAtividade().getId(),
+                    entregaAtual.getAlunoMatricula(),
+                    entregaAtual.getCorrecaoArquivo(),
+                    comentario,
+                    entregaAtual.getAtividade().getMateria(),
+                    entregaAtual.getAtividade().getAssunto()
+            );
+            CorrecaoStorage.adicionar(correcao);
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Correção enviada com sucesso!", ButtonType.OK);
+            alerta.showAndWait();
+
+            if (ativPendenteController != null) {
+                ativPendenteController.atualizarTela(); // Atualiza lista sem voltar manualmente
+            }
+
+            voltarTelaAnterior();
+        }
     }
 
     @FXML
@@ -125,6 +162,9 @@ public class CorrigirAtController {
             AtivPendenteController controller = loader.getController();
             controller.setProfessor(this.professor);
 
+            // Aqui dizemos para atualizar a tela
+            controller.atualizarTela();
+
             Stage stage = (Stage) sair.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("EducaLink - Atividades Pendentes");
@@ -138,6 +178,7 @@ public class CorrigirAtController {
         }
     }
 
+
     private void abrirArquivo(File arquivo) {
         try {
             Desktop.getDesktop().open(arquivo);
@@ -148,9 +189,6 @@ public class CorrigirAtController {
         }
     }
 
-    /**
-     * Método para adicionar efeito hover a um botão.
-     */
     private void aplicarEfeitoBotao(Button botao, String corNormal, String corHover, int raioBorda, int tamanhoFonte, int larguraPref) {
         botao.setStyle(String.format(
                 "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: %d; -fx-font-size: %dpx; -fx-pref-width: %dpx; -fx-cursor: hand;",

@@ -10,11 +10,15 @@ public class Entrega {
     private String alunoNome;
     private Material atividade; // referência para a atividade original
     private String respostaTexto; // conteúdo do TextArea
-    private String arquivoPath; // caminho do arquivo anexado (se tiver)
+    private String arquivoPath;   // caminho do arquivo anexado pelo aluno
     private LocalDateTime dataEntrega;
+    private boolean corrigida = false;
 
-    public Entrega() {
-    }
+    // 🔥 novos atributos de correção
+    private String correcaoComentario;
+    private String correcaoArquivo;
+
+    public Entrega() {}
 
     public Entrega(String alunoMatricula, String alunoNome, Material atividade,
                    String respostaTexto, String arquivoPath, LocalDateTime dataEntrega) {
@@ -34,17 +38,30 @@ public class Entrega {
     public String getArquivoPath() { return arquivoPath; }
     public LocalDateTime getDataEntrega() { return dataEntrega; }
 
-    // ---------- Setters (opcional) ----------
+    public String getCorrecaoComentario() { return correcaoComentario; }
+    public String getCorrecaoArquivo() { return correcaoArquivo; }
+
+    // ---------- Setters ----------
     public void setAlunoMatricula(String alunoMatricula) { this.alunoMatricula = alunoMatricula; }
     public void setAlunoNome(String alunoNome) { this.alunoNome = alunoNome; }
     public void setAtividade(Material atividade) { this.atividade = atividade; }
     public void setRespostaTexto(String respostaTexto) { this.respostaTexto = respostaTexto; }
     public void setArquivoPath(String arquivoPath) { this.arquivoPath = arquivoPath; }
     public void setDataEntrega(LocalDateTime dataEntrega) { this.dataEntrega = dataEntrega; }
+    public void setCorrigida(boolean corrigida) {
+        this.corrigida = corrigida;
+    }
+
+    public void setCorrecaoComentario(String correcaoComentario) { this.correcaoComentario = correcaoComentario; }
+    public void setCorrecaoArquivo(String correcaoArquivo) { this.correcaoArquivo = correcaoArquivo; }
 
     // ---------- Métodos auxiliares ----------
     public boolean temArquivoAnexado() {
         return arquivoPath != null && !arquivoPath.isBlank();
+    }
+
+    public boolean foiCorrigida() {
+        return (correcaoComentario != null && !correcaoComentario.isBlank()) || (correcaoArquivo != null);
     }
 
     @Override
@@ -56,6 +73,8 @@ public class Entrega {
                 ", respostaTexto='" + respostaTexto + '\'' +
                 ", arquivoPath='" + arquivoPath + '\'' +
                 ", dataEntrega=" + dataEntrega +
+                ", correcaoComentario='" + correcaoComentario + '\'' +
+                ", correcaoArquivo='" + correcaoArquivo + '\'' +
                 '}';
     }
 
